@@ -1,2 +1,2 @@
 # WLAN
-TEORIA DA DECISÃO
+TEORIA DA DECISÃO - Engenharia de Sistemas - UFMG
