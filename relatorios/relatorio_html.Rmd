@@ -89,14 +89,12 @@ plot_ly(data = grid_9_9,
 ```{r, warning=F, echo = F, message=F, error=F, fig.align="center", fig.width=7, fig.height=6}
 
 # Importa dados
-wlan_completa <- read_csv("clientes.csv",
+wlan_completa <- read_csv("https://raw.githubusercontent.com/Protospi/WLAN/main/dados/clientes.csv",
                           col_names = c("x", "y", "Mbps"))
 
 # Insere colunas de indice
 wlan1 <- wlan_completa %>%
   mutate(indice = 1:nrow(wlan_completa))
-
-# --------------------------------------------------------------------------
 
 # Declara vetor que armazena resultasdos
 contagem1 <- numeric(81)
@@ -131,11 +129,9 @@ for(i in 1:81){
   
 }
 
-# --------------------------------------------------------------------------
-
 # Carrega dados
 wlan1 <- tibble(Pa = rep(1,500)) %>%
-  bind_cols(read_csv("clientes.csv",
+  bind_cols(read_csv("https://raw.githubusercontent.com/Protospi/WLAN/main/dados/clientes.csv",
                      col_names = c("x", "y", "consumo")))
 
 # primeiro grid
@@ -144,8 +140,6 @@ grid1 <- tibble(Pa = 2:82,
                y = rep(c(0,100,200,300,400,500,600,700,800), each = 9),
                consumo = rep(100, 81),
                Pd = contagem1)
-
-# --------------------------------------------------------------------------
 
 base1 <- wlan1 %>%
   plot_ly(x = ~x, 
@@ -308,7 +302,7 @@ base2
 
 ## 
 
-![](resultados_9_9.png)
+![](https://raw.githubusercontent.com/Protospi/WLAN/main/imagens/solucao_9x9.png)
 
 
 ## Observações:

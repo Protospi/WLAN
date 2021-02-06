@@ -38,7 +38,7 @@ library(Rcpp)
 library(knitr)
 
 # Importa dados
-wlan <- read_csv("clientes.csv",
+wlan <- read_csv("https://raw.githubusercontent.com/Protospi/WLAN/main/dados/clientes.csv",
                  col_names = c("x", "y", "Mbps")) %>%
                  mutate(Id = 1:500) %>%
                  relocate(Id, .before = x)
@@ -131,7 +131,7 @@ wlan %>%
 * \textcolor{blue}{Para ilustra a construção do espaço de buscas foram consideradas as matrizes de $M_{8,8}$ até $M_{128,128}$ porque para espaços menores o algoritimo não converge.}
 
 
-![](espacos.png){width=70%, height=100%}
+![](../imagens/espacos_discretos.png){width=70%, height=100%}
 
 
 * \textcolor{blue}{Conforme a dimensão da matriz de espaço de busca aumenta é possivel visualizar o aumento de granularidade na inspeção do espaço de busca.}
@@ -205,7 +205,7 @@ for(intervalo in seq(8, 150, by = 1)){
 * \textcolor{blue}{Para cada espaço de busca foi contabilizado o número de Pontos de Acesso para atingir uma solução ótima.}
 
 
-![](g_pa.png){width=100%, height=100%}
+![](../imagens/convergencia.png){width=100%, height=100%}
 
 
 * \textcolor{blue}{O primeiro ponto no gráfico ( $Espaço_{(x,x)}$ = 8, Nº de Pontos de Acesso = 20 ), corresponde a varredura do espaço de busca $M_{(8,8)}$ que atinge a solução ótima de mínimo local com 20 Pontos de Acesso.}
@@ -222,7 +222,7 @@ for(intervalo in seq(8, 150, by = 1)){
 
 * \textcolor{blue}{O heardware utilizado foi um processador Intel i7 com 16 GB RAM}
 
-![](g_custo.png){width=100%, height=100%}
+![](../imagens/custo_computacional.png){width=100%, height=100%}
 
 * \textcolor{blue}{O primeiro ponto no gráfico ($Espaço_{(x,x)}$ = 8, Tempo (segundos) = 0,2234), corresponde a varredura do espaço de busca $M_{(8,8)}$ que atinge a solução ótima de mínimo local com custo computacional de 0.2 segundos.}
 
@@ -240,7 +240,7 @@ for(intervalo in seq(8, 150, by = 1)){
 * \textcolor{blue}{O algoritmo varreu o espaço de busca de 6400 possíveis localizações dos pontos de acesso para determinar a localização de pontos ótimos que minimizam o número de pontos de acesso e que cobrem 95 porcento da demanda sem ultrapassar o máximo de 150 Mbps para a cobertura de cada ponto de acesso.}
 
 
-![](solucao_6400.png){width=100%, height=100%}
+![](../imagens/solucao_80x80.png){width=100%, height=100%}
 
 * \textcolor{blue}{É possível observar que ocorre somente uma sobreposição de áreas de cobertura dos pontos de acesso no quadrante superior esquerdo do gráfico.}
 
