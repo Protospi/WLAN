@@ -1,0 +1,10 @@
+name: Publish Document
+title:
+username:
+account: rpubs
+server: rpubs.com
+hostUrl: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/722261/b4ea8dd84d3f4a66b86777d921ca5ef7
+bundleId: https://api.rpubs.com/api/v1/document/722261/b4ea8dd84d3f4a66b86777d921ca5ef7
+url: http://rpubs.com/Drope/722261
+when: 1612712321.45244
