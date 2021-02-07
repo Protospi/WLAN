@@ -11,7 +11,7 @@ library(ggplot2)
 library(Rcpp)
 
 # Importa dados
-wlan_completa <- read_csv("clientes.csv",
+wlan_completa <- read_csv("dados/clientes.csv",
                           col_names = c("x", "y", "Mbps"))
 
 # Insere colunas de indice
@@ -24,16 +24,8 @@ centro_y <- rep(seq(1, 800, by = 10), times = 80)
 
 # --------------------------------------------------------------------------
 
-
 # Implementacao de conta_pontos em cpp
 sourceCpp('conta_pontos.cpp')
-
-# Teste da funcao
-conta_pontos(x = centro_x[200],
-             y = centro_y[200],
-             wlanx = wlan$x,
-             wlany = wlan$y,
-             indice = wlan$indice)
 
 # --------------------------------------------------------------------------
 
@@ -45,6 +37,9 @@ contador <- 0
 
 # Declara total megabites
 Mbps <- NULL
+
+# Vetor de Pa's que violam condicao de Mbps
+viola <- NULL
 
 # Marca tempo de inicio
 inicio <- Sys.time()
@@ -62,16 +57,17 @@ while(contador < 475){
   for(i in 2:6400){
     
     # Condicao para comparar circulos com maior quantidade de pontos
-    if(length(conta_pontos(x = centro_x[i],
-                           y = centro_y[i],
-                           wlanx = wlan$x,
-                           wlany = wlan$y,
-                           indice = wlan$indice)) >= 
-       length(conta_pontos(x = centro_x[mais_populoso],
-                           y = centro_y[mais_populoso],
-                           wlanx = wlan$x,
-                           wlany = wlan$y,
-                           indice = wlan$indice))){
+    if( (length(conta_pontos(x = centro_x[i],
+                             y = centro_y[i],
+                             wlanx = wlan$x,
+                             wlany = wlan$y,
+                             indice = wlan$indice)) >= 
+         length(conta_pontos(x = centro_x[mais_populoso],
+                             y = centro_y[mais_populoso],
+                             wlanx = wlan$x,
+                             wlany = wlan$y,
+                             indice = wlan$indice)) ) &
+        (!i %in% viola) ){
       
       # Atualiza circulo mais populoso
       mais_populoso <- i
@@ -94,7 +90,7 @@ while(contador < 475){
     pull(total)
   
   # Condicao verifica Mbps
-  if(megas < 150){
+  if(megas < 140){
     
     # Atualiza totais de Mbps
     Mbps <- c( Mbps, megas)
@@ -110,6 +106,11 @@ while(contador < 475){
     
     # Verbaliza passos da funcao
     print(contador)
+    
+  } else {
+    
+    # Insere indice de pa que viola condicoes
+    viola <- c(viola, mais_populoso)
     
   }
   
@@ -172,7 +173,7 @@ for(i in vencedores){
                                    y = y),
                      data = df,
                      color = "orange",
-                     size = 3,
+                     size = 2.5,
                      alpha = 0.05)
   
 }
@@ -184,12 +185,113 @@ p <- p + geom_point(resultados,
                     size =  3,
                     alpha = 0.9) +
   ggtitle("Solução Ótima para os Pontos de Acesso",
-          subtitle = "Solução de 12 Pa's usando o grid de 80x80 com 6400 possíveis pontos")+
+          subtitle = "Solução de 14 Pa's no espaço discreto de 80 x 80 com máximo de 140 Mbps por Pa")+
   theme(plot.title = element_text(size=12),
         plot.subtitle = element_text(size=10))+
   scale_fill_identity(name = "Pa's", guide = 'legend', labels = c('')) 
 
-# Imprime grafico
-p
 
 # --------------------------------------------------------------------------
+
+# Declara data frame de circulos
+circulos_df <- tibble(grau = 1:360)
+
+# Laco para construcao de variaveis 
+for(i in vencedores){
+  
+  # Popula Circulos
+  circulos_df <- circulos_df %>%
+    mutate(x = centro_x[i] + 60 * cos(1:360),
+           y = centro_y[i] + 60 * sin(1:360)) %>%
+    rename_with(.fn = ~paste0(., as.character(i)),
+                .cols = all_of(colunas))
+}
+
+# Popula grafico com circulos
+for(i in vencedores){
+  
+  # Separa df
+  df <- circulos_df[ , c( paste0("x", i), paste0("y", i) ) ] %>%
+    rename_with(~paste0(c("x", "y")))
+  
+  # Insere circulos solucao otima
+  p = p + geom_point(mapping = aes(x = x,
+                                   y = y),
+                     data = df,
+                     color = "orange",
+                     size = 1.5,
+                     alpha = 0.05)
+  
+}
+
+# --------------------------------------------------------------------------
+
+# Declara data frame de circulos
+circulos_df <- tibble(grau = 1:360)
+
+# Laco para construcao de variaveis 
+for(i in vencedores){
+  
+  # Popula Circulos
+  circulos_df <- circulos_df %>%
+    mutate(x = centro_x[i] + 40 * cos(1:360),
+           y = centro_y[i] + 40 * sin(1:360)) %>%
+    rename_with(.fn = ~paste0(., as.character(i)),
+                .cols = all_of(colunas))
+}
+
+# Popula grafico com circulos
+for(i in vencedores){
+  
+  # Separa df
+  df <- circulos_df[ , c( paste0("x", i), paste0("y", i) ) ] %>%
+    rename_with(~paste0(c("x", "y")))
+  
+  # Insere circulos solucao otima
+  p = p + geom_point(mapping = aes(x = x,
+                                   y = y),
+                     data = df,
+                     color = "orange",
+                     size = 1,
+                     alpha = 0.05)
+  
+}
+
+
+# --------------------------------------------------------------------------
+
+# Declara data frame de circulos
+circulos_df <- tibble(grau = 1:360)
+
+# Laco para construcao de variaveis 
+for(i in vencedores){
+  
+  # Popula Circulos
+  circulos_df <- circulos_df %>%
+    mutate(x = centro_x[i] + 20 * cos(1:360),
+           y = centro_y[i] + 20 * sin(1:360)) %>%
+    rename_with(.fn = ~paste0(., as.character(i)),
+                .cols = all_of(colunas))
+}
+
+# Popula grafico com circulos
+for(i in vencedores){
+  
+  # Separa df
+  df <- circulos_df[ , c( paste0("x", i), paste0("y", i) ) ] %>%
+    rename_with(~paste0(c("x", "y")))
+  
+  # Insere circulos solucao otima
+  p = p + geom_point(mapping = aes(x = x,
+                                   y = y),
+                     data = df,
+                     color = "orange",
+                     size = 0.5,
+                     alpha = 0.05)
+  
+}
+
+# --------------------------------------------------------------------------
+
+# Imprime grafico
+p

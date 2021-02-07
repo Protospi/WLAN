@@ -11,7 +11,7 @@ library(ggplot2)
 library(Rcpp)
 
 # Importa dados
-wlan_completa <- read_csv("clientes.csv",
+wlan_completa <- read_csv("dados/clientes.csv",
                           col_names = c("x", "y", "Mbps"))
 
 # Insere colunas de indice
@@ -24,16 +24,8 @@ centro_y <- rep(c(0,100,200,300,400,500,600,700,800), each = 9)
 
 # --------------------------------------------------------------------------
 
-
 # Implementacao de conta_pontos em cpp
-sourceCpp('conta_pontos.cpp')
-
-# Teste da funcao
-conta_pontos(x = centro_x[200],
-             y = centro_y[200],
-             wlanx = wlan$x,
-             wlany = wlan$y,
-             indice = wlan$indice)
+sourceCpp('scripts/conta_pontos.cpp')
 
 # --------------------------------------------------------------------------
 
@@ -108,7 +100,7 @@ while(contador < 475){
     # Atualiza contador
     contador <- contador + length(cobertura)
     
-    # Verbaliza passos da funcao
+    # Verbaliza passos do laco
     print(contador)
     
   }
@@ -172,7 +164,7 @@ for(i in vencedores){
                                    y = y),
                      data = df,
                      color = "orange",
-                     size = 3,
+                     size = 2.5,
                      alpha = 0.05)
   
 }
@@ -184,12 +176,113 @@ p <- p + geom_point(resultados,
                     size =  3,
                     alpha = 0.9) +
   ggtitle("Solução Ótima para os Pontos de Acesso",
-          subtitle = "Solução de 17 Pa's considerando espaço discretizado de 9 x 9")+
+          subtitle = "Solução de 17 Pa's no espaço discreto de 9 x 9")+
   theme(plot.title = element_text(size=12),
         plot.subtitle = element_text(size=10))+
   scale_fill_identity(name = "Pa's", guide = 'legend', labels = c('')) 
 
-# Imprime grafico
-p
 
 # --------------------------------------------------------------------------
+
+# Declara data frame de circulos
+circulos_df <- tibble(grau = 1:360)
+
+# Laco para construcao de variaveis 
+for(i in vencedores){
+  
+  # Popula Circulos
+  circulos_df <- circulos_df %>%
+    mutate(x = centro_x[i] + 60 * cos(1:360),
+           y = centro_y[i] + 60 * sin(1:360)) %>%
+    rename_with(.fn = ~paste0(., as.character(i)),
+                .cols = all_of(colunas))
+}
+
+# Popula grafico com circulos
+for(i in vencedores){
+  
+  # Separa df
+  df <- circulos_df[ , c( paste0("x", i), paste0("y", i) ) ] %>%
+    rename_with(~paste0(c("x", "y")))
+  
+  # Insere circulos solucao otima
+  p = p + geom_point(mapping = aes(x = x,
+                                   y = y),
+                     data = df,
+                     color = "orange",
+                     size = 1.5,
+                     alpha = 0.05)
+  
+}
+
+# --------------------------------------------------------------------------
+
+# Declara data frame de circulos
+circulos_df <- tibble(grau = 1:360)
+
+# Laco para construcao de variaveis 
+for(i in vencedores){
+  
+  # Popula Circulos
+  circulos_df <- circulos_df %>%
+    mutate(x = centro_x[i] + 40 * cos(1:360),
+           y = centro_y[i] + 40 * sin(1:360)) %>%
+    rename_with(.fn = ~paste0(., as.character(i)),
+                .cols = all_of(colunas))
+}
+
+# Popula grafico com circulos
+for(i in vencedores){
+  
+  # Separa df
+  df <- circulos_df[ , c( paste0("x", i), paste0("y", i) ) ] %>%
+    rename_with(~paste0(c("x", "y")))
+  
+  # Insere circulos solucao otima
+  p = p + geom_point(mapping = aes(x = x,
+                                   y = y),
+                     data = df,
+                     color = "orange",
+                     size = 1,
+                     alpha = 0.05)
+  
+}
+
+
+# --------------------------------------------------------------------------
+
+# Declara data frame de circulos
+circulos_df <- tibble(grau = 1:360)
+
+# Laco para construcao de variaveis 
+for(i in vencedores){
+  
+  # Popula Circulos
+  circulos_df <- circulos_df %>%
+    mutate(x = centro_x[i] + 20 * cos(1:360),
+           y = centro_y[i] + 20 * sin(1:360)) %>%
+    rename_with(.fn = ~paste0(., as.character(i)),
+                .cols = all_of(colunas))
+}
+
+# Popula grafico com circulos
+for(i in vencedores){
+  
+  # Separa df
+  df <- circulos_df[ , c( paste0("x", i), paste0("y", i) ) ] %>%
+    rename_with(~paste0(c("x", "y")))
+  
+  # Insere circulos solucao otima
+  p = p + geom_point(mapping = aes(x = x,
+                                   y = y),
+                     data = df,
+                     color = "orange",
+                     size = 0.5,
+                     alpha = 0.05)
+  
+}
+
+# --------------------------------------------------------------------------
+
+# Imprime grafico
+p
