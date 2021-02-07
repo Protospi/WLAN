@@ -12,12 +12,12 @@ header-includes:
 
 ## Abstract
 
-* \textcolor{blue}{This article comprises the applied problem of the Decision Theory course from the department of electrical engineering of UFMG taught by Professor Lucas Batista. The objective of this work is to apply the optmization and decision techniques taught throughout the semester. The proposed problem aims to minimize the number of access points routers to supply the Mbps consumption demanded by clients in a controlled environment. Also meeting pre-established optimization restrictions.}
+* \textcolor{blue}{This article comprises an applied problem of the Decision Theory course from the department of electrical engineering of UFMG taught by Professor Lucas Batista. The objective of this work is to apply the optmization and decision techniques taught throughout the semester. The proposed problem aims to minimize the number of access points routers to supply the Mbps consumption demanded by clients in a controlled environment. Also meeting pre-established optimization restrictions.}
 
 ## Introdução
 
 * \textcolor{blue}{O problema foi modelado no software R com implementação da função objetivo em C++.}
-* \textcolor{blue}{Diferentes espaços de busca foram considerados com o intuito de descobrir a partir de qual densidade de espaço de busca o algoritmo convergiria para a solução de mínimo ótima.}
+* \textcolor{blue}{Diferentes espaços de busca foram considerados com o intuito de descobrir a partir de qual densidade de espaço de busca discretizado o algoritmo convergiria para a solução de mínimo global ótima.}
 
 ## Especificações do Problema
 
@@ -49,7 +49,7 @@ kable(head(wlan,10))
 ```
 
 * Variáveis de Decisão:
-  + Coordenadas dos pontos a serem instalados.
+  + Coordenadas dos pontos a serem instalados na área de 800 x 800 metros.
   + Ponto de Acesso que será responsável pelo atendimento de cada cliente.
   
 * Restrições:
@@ -126,9 +126,9 @@ wlan %>%
 
 ## Espaços de Busca 
 
-* \textcolor{blue}{A construção de empaços de busca considerou espaços na forma de matrizes quadradas do tipo $M_{(i,j)}$ com i = {8, 9, ..., 150} e j = {8, 9, ..., 150} dentro da área de 800 x 800. Cada (i,j) representa a possível localização de um ponto de acesso.}
+* \textcolor{blue}{A construção de empaços de busca considerou espaços discretizados na forma de matrizes quadradas do tipo $M_{(i,j)}$ com $i = \{8, 9, ..., 150\}$ e $j = \{8, 9, ..., 150\}$ dentro da área de 800 x 800. Cada (i,j) representa a possível localização de um ponto de acesso.}
 
-* \textcolor{blue}{Para ilustra a construção do espaço de buscas foram consideradas as matrizes de $M_{8,8}$ até $M_{128,128}$ porque para espaços menores o algoritimo não converge.}
+* \textcolor{blue}{Para ilustrar a construção do espaço discretizado de busca foram consideradas as matrizes de $M_{8,8}$ até $M_{128,128}$.}
 
 
 ![](../imagens/espacos_discretos.png){width=70%, height=100%}
@@ -136,7 +136,9 @@ wlan %>%
 
 * \textcolor{blue}{Conforme a dimensão da matriz de espaço de busca aumenta é possivel visualizar o aumento de granularidade na inspeção do espaço de busca.}
 
-* \textcolor{blue}{Os espaços de busca entre $M_{(129, 129)}$ e $M_{(150, 150)}$, que foram utilizados na simulação, não foram apresentados no gráfico de grids porque a visualização do processo de aumento na densidade de pontos já é óbvio no intervalo $M_{(8, 8)}$ até $M_{(128, 128)}$}
+* \textcolor{blue}{O algoritimo completo considerou espaços discretos entre 8 x 8 até 150 x 150.}
+
+* [\textcolor{orange}{LINK da Apresentação em Slides: Como Funciona o Algoritmo}](https://rpubs.com/Drope/algoritmo)
 
 
 ## Prototipagem do Algoritmo 
@@ -144,10 +146,7 @@ wlan %>%
 * \textcolor{blue}{Função Conta Pontos em C++}
 
 ```{Rcpp eval = F}
-double square(double x){
-  double squared = x * x;
-  return squared;
-}
+double square(double x){double squared = x * x; return squared;}
 std::vector<double> conta_pontos(x, y, wlanx, wlany, indice) {
   int n = wlany.size(); double soma; double raio = square(85); indices(0);
   for(int i = 0; i < n; i++) {
@@ -165,12 +164,11 @@ wlan_completa <- read_csv("clientes.csv", col_names = c("x", "y", "Mbps"))
 wlan_id <- wlan_completa %>% mutate(indice = 1:nrow(wlan_completa))
 sourceCpp('conta_pontos.cpp')
 performance <- tibble(intervalos = 8:50, PA = rep(0,143), tempo = rep(0,143))
-
 for(intervalo in seq(8, 150, by = 1)){
   wlan <- wlan_id
   centro_x <- rep(seq(0, 800, length.out = intervalo), each = intervalo)  
   centro_y <- rep(seq(0, 800, length.out = intervalo), times = intervalo)
-  vencedores <- NULL; contador <- 0 ;Mbps <- NULL
+  vencedores <- NULL; contador <- 0 ;Mbps <- NULL; viola <- NULL
   inicio <- Sys.time()
   while(contador < 475){
     cobertura <- NULL
@@ -179,7 +177,8 @@ for(intervalo in seq(8, 150, by = 1)){
       if(length(conta_pontos(x = centro_x[i], y = centro_y[i],
                              wlanx = wlan$x, wlany = wlan$y, indice = wlan$indice)) >= 
          length(conta_pontos(x = centro_x[populoso], y = centro_y[populoso],
-                             wlanx = wlan$x, wlany = wlan$y, indice = wlan$indice))){
+                             wlanx = wlan$x, wlany = wlan$y, indice = wlan$indice))&
+         (!i %in% viola) ){
         populoso <- i
         cobertura <- conta_pontos(x = centro_x[populoso], y = centro_y[populoso],
                                   wlanx = wlan$x, wlany = wlan$y, indice = wlan$indice)}}
@@ -191,7 +190,7 @@ for(intervalo in seq(8, 150, by = 1)){
       Mbps <- c(Mbps, megas)
       vencedores <- c(vencedores, populoso)
       wlan <- wlan %>% filter(!indice %in% as.integer(cobertura) )
-      contador <- contador + length(cobertura)}}
+      contador <- contador + length(cobertura)} else { viola <- c(viola, populoso)}}
   fim <- Sys.time()
   performance$tempo[intervalo-7] <- fim - inicio
   performance$PA[intervalo-7] <- length(vencedores)

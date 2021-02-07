@@ -24,9 +24,15 @@ for(i in 1:16){
   # Declara data frame de pontos de busca
   centros <- tibble(x = centro_x, y = centro_y) 
   
+  # Calcula numero de pontos
+  pontos <- i^2*8^2
+  
+  # Calcula Indices
+  ids <- paste0("(",i * 8, ",", i * 8, ")")
+  
   # Popula df
   p[[i]] <-  ggplot(centros,aes(x = x, y = y)) +
-    geom_point(size = 0.01, alpha = 1/i)+
+    geom_point(size = 0.01, alpha = 1/i, color = "red")+
     theme_bw() +
     theme(axis.line = element_line(colour = "black"),
           panel.grid.major = element_blank(),
@@ -34,9 +40,11 @@ for(i in 1:16){
           panel.border = element_blank(),
           panel.background = element_blank(),
           plot.title = element_text(size=10))+
-    ggtitle(paste0(i^2*8^2, " Pontos"))
+    ggtitle(bquote(M[.(ids)] ~ "  " ~ .(pontos) ~ " Pontos"))
   
 }
+
+
 
 # Arranja grid
 do.call(grid.arrange, c(p))
@@ -44,7 +52,7 @@ do.call(grid.arrange, c(p))
 #--------------------------------------------------------------------------
 
 # Importa dados
-wlan_completa <- read_csv("clientes.csv",
+wlan_completa <- read_csv("dados/clientes.csv",
                           col_names = c("x", "y", "consumo"))
 
 # Insere colunas de indice
@@ -52,7 +60,7 @@ wlan_id <- wlan_completa %>%
   mutate(indice = 1:nrow(wlan_completa))
 
 # Implementacao de conta_pontos em cpp
-sourceCpp('conta_pontos.cpp')
+sourceCpp('scripts/conta_pontos.cpp')
 
 # Declara data frame de performance
 performance <- tibble(intervalos = seq(8, 150, by = 1),
@@ -79,6 +87,9 @@ for(intervalo in seq(8, 150, by = 1)){
   # Declara total megabites
   Mbps <- NULL
   
+  # Vetor de Pa's que violam condicao de Mbps
+  viola <- NULL
+  
   # Inicia contador de tempo
   inicio <- Sys.time()
   
@@ -95,16 +106,17 @@ for(intervalo in seq(8, 150, by = 1)){
     for(i in seq(2, intervalo^2, by = 1)){
       
       # Condicao para comparar circulos com maior quantidade de pontos
-      if(length(conta_pontos(x = centro_x[i],
-                             y = centro_y[i],
-                             wlanx = wlan$x,
-                             wlany = wlan$y,
-                             indice = wlan$indice)) >= 
-         length(conta_pontos(x = centro_x[mais_populoso],
-                             y = centro_y[mais_populoso],
-                             wlanx = wlan$x,
-                             wlany = wlan$y,
-                             indice = wlan$indice))){
+      if( (length(conta_pontos(x = centro_x[i],
+                               y = centro_y[i],
+                               wlanx = wlan$x,
+                               wlany = wlan$y,
+                               indice = wlan$indice)) >= 
+           length(conta_pontos(x = centro_x[mais_populoso],
+                               y = centro_y[mais_populoso],
+                               wlanx = wlan$x,
+                               wlany = wlan$y,
+                               indice = wlan$indice)) ) &
+          (!i %in% viola) ){
         
         # Atualiza circulo mais populoso
         mais_populoso <- i
@@ -116,7 +128,7 @@ for(intervalo in seq(8, 150, by = 1)){
                                   wlany = wlan$y,
                                   indice = wlan$indice)
         
-      }
+      } 
       
     }
     
@@ -143,6 +155,11 @@ for(intervalo in seq(8, 150, by = 1)){
       
       # Verbaliza passos da funcao
       print(paste0("Indice: ", intervalo, " - ", "Contador: ", contador))
+      
+    } else {
+      
+      # Insere indice de pa que viola condicoes
+      viola <- c(viola, mais_populoso)
       
     }
     
@@ -179,7 +196,7 @@ ggplot(data = performance, aes(x = intervalos, y = PA))+
 ggplot(data = performance, aes(x = intervalos, y = tempo))+
   geom_line(size = 1, color = "indianred") +
   ggtitle("Custo Computacional",
-          subtitle = "Tempo em segundos por espaço de busca necessário para atingir o mínimos local.")+
+          subtitle = "Tempo em segundos por espaço de busca necessário para atingir uma solução global ou local.")+
   coord_cartesian(xlim = c(5, 150), ylim = c(0, 4))+
   ylab("Tempo (segundos)")+
   xlab(expression(Espaço["(x,x)"]))+

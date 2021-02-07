@@ -38,6 +38,9 @@ contador <- 0
 # Declara total megabites
 Mbps <- NULL
 
+# Vetor de Pa's que violam condicao de Mbps
+viola <- NULL
+
 # Marca tempo de inicio
 inicio <- Sys.time()
 
@@ -54,16 +57,17 @@ while(contador < 475){
   for(i in 2:81){
     
     # Condicao para comparar circulos com maior quantidade de pontos
-    if(length(conta_pontos(x = centro_x[i],
-                           y = centro_y[i],
-                           wlanx = wlan$x,
-                           wlany = wlan$y,
-                           indice = wlan$indice)) >= 
-       length(conta_pontos(x = centro_x[mais_populoso],
-                           y = centro_y[mais_populoso],
-                           wlanx = wlan$x,
-                           wlany = wlan$y,
-                           indice = wlan$indice))){
+    if( (length(conta_pontos(x = centro_x[i],
+                             y = centro_y[i],
+                             wlanx = wlan$x,
+                             wlany = wlan$y,
+                             indice = wlan$indice)) >= 
+         length(conta_pontos(x = centro_x[mais_populoso],
+                             y = centro_y[mais_populoso],
+                             wlanx = wlan$x,
+                             wlany = wlan$y,
+                             indice = wlan$indice)) ) &
+        (!i %in% viola) ){
       
       # Atualiza circulo mais populoso
       mais_populoso <- i
@@ -102,6 +106,11 @@ while(contador < 475){
     
     # Verbaliza passos do laco
     print(contador)
+    
+  } else {
+    
+    # Insere indice de pa que viola condicoes
+    viola <- c(viola, mais_populoso)
     
   }
   
