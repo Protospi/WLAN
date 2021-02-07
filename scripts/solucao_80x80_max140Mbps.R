@@ -90,7 +90,7 @@ while(contador < 475){
     pull(total)
   
   # Condicao verifica Mbps
-  if(megas < 150){
+  if(megas < 140){
     
     # Atualiza totais de Mbps
     Mbps <- c( Mbps, megas)

@@ -9,29 +9,32 @@ output: ioslides_presentation
 
 * Descrição:
   * Função:
-    * Minimizar o número de pontos de acesso (PA's) na área de 800 x 800 que atendam à demanda de 475 clientes (PD's).
+    * Minimizar o número de pontos de acesso (Pa's) na área de 800 x 800 metros que atendam à demanda de 475 clientes (Pd's).
   * Restrições:
-    * A soma da demanda dos PD's cobertos por um dado PA não deve ultrapassar 150 Mbps.
-    * O número de PA's não deve ultrapassar 100.
+    * O alcance de cada Pa é um círculo com raio de 85 metros.
+    * O número de Pa's não deve ultrapassar 100.
+    * A soma da demanda dos Pd's cobertos por um dado Pa não deve ultrapassar 150 Mbps.
+    
 
 ## Espaço de busca
 
 * Escala:
   * Continua:
-    * Existem infinitas coordenadas de possíveis localizações para os PA's e o problema é computacionalmente isolúvel. 
+    * Existem infinitas coordenadas de possíveis localizações para os Pa's tornando o problema computacionalmente insolúvel. 
   
   * Discreta:
-    * Considerando a área de 800 x 800 como inteiros 640.000 possíveis localizações para os PA's e o problema já permite um tratameto computacional.
+    * Considerando a área de 800 x 800 metros discretizada em inteiros, existem 640.000 possíveis localizações para os Pa's tornando o problema computacionalmente solúvel.
+
  
 ## Desenho do Algoritmo 
  
-* Testes:
+* Testes dos Espaços:
   * Espaços discretos menores que 8 x 8 não apresentaram solução ótima.
   * Espaços maiores que 150 x 150 apresentaram custo computacional muito elevado.
    
 * Implementação:    
   * O algorítimo foi desenhado para escanear os espaços discretos de 8 x 8 até 150 x 150 na área de 800 x 800 com intervalos iguais entre os pontos.
-  * Para ilustrar foi considerado o espaço de 9 x 9 que representa 81 possíveis localizações para os PA's.
+  * Para ilustrar, foi considerado o espaço de 9 x 9, que representa 81 possíveis localizações para os Pa's.
 
 ##
 
@@ -67,22 +70,25 @@ plot_ly(data = grid_9_9,
 ## Interações do Algoritmo 
 
 * Laço:
-  * A cada iteração o algoritmo inspeciona cada coordenada do espaço discretizado de possíveis localizações dos PA's e determina o PA que cobre o maior número de PD's. 
-  * O indice do PA com maior cobertura de PD's é armazenado e esses PD's são removidos.
-  * O algorítmo reinicia a busca do próximo PA que cobre mais PD's dentre os restantes.
+  * A cada iteração o algoritmo inspeciona cada coordenada do espaço discretizado de possíveis localizações dos Pa's e determina o PA que cobre o maior número de Pd's. 
+  * Se a condição de 150 Mbps não for violada, o índice do PA com maior cobertura de Pd's é armazenado e esses Pd's são removidos.
+  * O algoritmo reinicia a busca do próximo PA que cobre mais Pd's dentre os restantes.
 
 * Critério de Parada:
-  * O algoritmo para quando cobre pelo menos 475 dos 500 PD's atendendo as restrições de consumo de banda e limite de PA's.
+  * O algoritmo para quando cobre pelo menos 475 dos 500 Pd's atendendo as restrições de consumo de banda e limite de Pa's.
+
 
 ## Primeira Iteração
 
-* O algoritmo conta o número de PD's cobertos por cada uma das 81 possíveis localizações para o 1º PA.
+* O algoritmo conta o número de Pd's cobertos por cada uma das 81 possíveis localizações para o 1º PA e soma os Mbps demandados.
 
-* O PA nas coordenadas (200, 200) cobre o maior número de PD's.
+* O máximo de 202 Pd's são cobertos pelo PA nas coordenadas (200, 200).
+
+* O total de 146 Mbps de demanda desses Pd's não viola a condição de menor que 150 Mbps.  
 
 * As coordenadas deste 1º PA são armazenadas.
 
-* Os 202 PD's cobertos por este PA são removidos.
+* Os 202 Pd's cobertos por este PA são removidos por já estarem cobertos.
 
 ##
 
@@ -178,13 +184,15 @@ base1
 
 ## Segunda Iteração
 
-* O algoritimo realiza a mesma busca da primeira iteração porém desconsiderando os PD's cobertos pelo 1º PA.
+* O algoritmo realiza a mesma busca e contagem da primeira iteração, porém desconsiderando os Pd's cobertos pelo 1º PA.
 
-* O PA nas coordenadas (600, 600) cobre o maior número de PD's.
+* O máximo de 199 Pd's são cobertos pelo PA nas coordenadas (600, 600).
+
+* O total de 141 Mbps de demanda destes Pd's não viola a condição de menor que 150 Mbps. 
 
 * Da mesma forma são armazenadas as coordenadas desse 2º PA. 
 
-* Os 199 PD's cobertos por este PA também são removidos.
+* Os 199 Pd's cobertos por este PA também são removidos por já estarem cobertos.
 
 ## 
 
@@ -296,21 +304,26 @@ base2
 
 * O algoritmo para. 
 
-* Os critérios são atendidos.
-
 * O resultado da busca retorna uma solução no mínimo local de 17 PA´s. 
+
+* A restrição de número de Pa's menor que 100 é atendida.
+
+* A restrição de que a soma da demanda dos Pd's cobertos por uma Pa não exceda 150 Mbps é atendida.
+
+* As informações dos índices, número de Pd's atendidos e total da demanda em Mbps de cada Pa podem ser recuperados.
+
 
 ## 
 
 ![](https://raw.githubusercontent.com/Protospi/WLAN/main/imagens/solucao_9x9.png)
 
 
-## Observações:
+## Conclusões:
 
 * O mínimo global foi encontrado a partir de espaços discretos de 55 x 55.
 
-* Ente espaços discretos de 55 x 55 até aproximadamente 125 x 125 o algoritmo oscila entre 12 e 13 PA's.
+* No intervalo de espaços discretos de 55 x 55 até 115 x 115 o algoritmo oscila entre 12 e 13 Pa's.
 
-* Nos espaços discretos mais granulares que 125 x 125 o algoritmo converge para o mínimo global de 12 PA's.
+* Nos espaços discretos mais granulares que 115 x 115 o algoritmo converge para o mínimo global de 12 Pa's.
 
 
