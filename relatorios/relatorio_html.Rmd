@@ -347,7 +347,9 @@ base2
 
 * O algoritmo para. 
 
-* O resultado da busca retorna uma solução no mínimo local de 17 PA´s. 
+* O resultado da busca retorna uma solução no mínimo local de 17 PA´s.
+
+* A condição de que 95% ou 475 do total de 500 pontos sejam cobertos é atendida.
 
 * A restrição de número de Pa's menor que 100 é atendida.
 
