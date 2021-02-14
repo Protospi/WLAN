@@ -39,7 +39,7 @@ std::vector<double> conta_pontos(double x, double y, DoubleVector wlanx, DoubleV
 
 
 // [[Rcpp::export]]
-List rastreador(int intervalo_x, int intervalo_y, DoubleVector wlanx, DoubleVector wlany, DoubleVector centro_x, DoubleVector centro_y, NumericVector indice, int mais_populoso, std::vector<int> viola) {
+List rastreia(int intervalo_x, int intervalo_y, DoubleVector wlanx, DoubleVector wlany, DoubleVector centro_x, DoubleVector centro_y, NumericVector indice, int mais_populoso, std::vector<int> viola) {
   
   std::vector<double> cobertura(0);
   List ret;

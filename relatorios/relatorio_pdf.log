@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2021.2.6)  13 FEB 2021 22:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2021.2.6)  14 FEB 2021 19:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -598,89 +598,87 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 120
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
-29.
+27.
 (c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-Overfull \vbox (3.20923pt too high) has occurred while \output is active []
-
-[1
+) [1
 
 {c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdfte
 x.map}]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 248.
+(Font)              <10> on input line 254.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 248.
+(Font)              <7> on input line 254.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 248.
-<relatorio_pdf_files/figure-latex/unnamed-chunk-2-1.pdf, id=67, 650.43pt x 578.
+(Font)              <5> on input line 254.
+<relatorio_pdf_files/figure-latex/unnamed-chunk-2-1.pdf, id=75, 650.43pt x 578.
 16pt>
 File: relatorio_pdf_files/figure-latex/unnamed-chunk-2-1.pdf Graphic file (type
  pdf)
 <use relatorio_pdf_files/figure-latex/unnamed-chunk-2-1.pdf>
 Package pdftex.def Info: relatorio_pdf_files/figure-latex/unnamed-chunk-2-1.pdf
-  used on input line 321.
+  used on input line 344.
 (pdftex.def)             Requested size: 469.76817pt x 417.57172pt.
-[2] [3 <./relatorio_pdf_files/figure-latex/unnamed-chunk-2-1.pdf>]
-<../imagens/espacos_discretos.png, id=97, 677.53125pt x 677.53125pt>
-File: ../imagens/espacos_discretos.png Graphic file (type png)
-<use ../imagens/espacos_discretos.png>
-Package pdftex.def Info: ../imagens/espacos_discretos.png  used on input line 3
-42.
-(pdftex.def)             Requested size: 469.77148pt x 469.77148pt.
-[4 <../imagens/espacos_discretos.png>]
+[2]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 3
-63.
+71.
 (c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
+<../imagens/espacos_discretos_irregulares.png, id=90, 232.2276pt x 242.8272pt>
+File: ../imagens/espacos_discretos_irregulares.png Graphic file (type png)
+<use ../imagens/espacos_discretos_irregulares.png>
+Package pdftex.def Info: ../imagens/espacos_discretos_irregulares.png  used on 
+input line 376.
+(pdftex.def)             Requested size: 469.76929pt x 491.21104pt.
+[3 <./relatorio_pdf_files/figure-latex/unnamed-chunk-2-1.pdf>] [4 <../imagens/e
+spacos_discretos_irregulares.png>]
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 364.
-[5]
-<../imagens/convergencia.png, id=112, 677.53125pt x 526.96875pt>
-File: ../imagens/convergencia.png Graphic file (type png)
-<use ../imagens/convergencia.png>
-Package pdftex.def Info: ../imagens/convergencia.png  used on input line 432.
-(pdftex.def)             Requested size: 469.77148pt x 365.37782pt.
-
-LaTeX Warning: Command \c invalid in math mode on input line 436.
-
-[6 <../imagens/convergencia.png>]
-<../imagens/custo_computacional.png, id=119, 677.53125pt x 526.96875pt>
-File: ../imagens/custo_computacional.png Graphic file (type png)
-<use ../imagens/custo_computacional.png>
-Package pdftex.def Info: ../imagens/custo_computacional.png  used on input line
- 453.
-(pdftex.def)             Requested size: 469.77148pt x 365.37782pt.
-
-LaTeX Warning: Command \c invalid in math mode on input line 457.
-
-[7 <../imagens/custo_computacional.png>]
-<../imagens/solucao_80x80.png, id=127, 677.53125pt x 602.25pt>
-File: ../imagens/solucao_80x80.png Graphic file (type png)
-<use ../imagens/solucao_80x80.png>
-Package pdftex.def Info: ../imagens/solucao_80x80.png  used on input line 476.
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 432.
+LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 
+435.
+(c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmtt.fd
+File: ts1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+) [5] [6]
+<../imagens/mapa_superficie_pas.png, id=129, 677.53125pt x 602.25pt>
+File: ../imagens/mapa_superficie_pas.png Graphic file (type png)
+<use ../imagens/mapa_superficie_pas.png>
+Package pdftex.def Info: ../imagens/mapa_superficie_pas.png  used on input line
+ 569.
 (pdftex.def)             Requested size: 469.77148pt x 417.57465pt.
-[8 <../imagens/solucao_80x80.png (PNG copy)>] [9] (./relatorio_pdf.aux)
+[7 <../imagens/mapa_superficie_pas.png>]
+<../imagens/mapa_superficie_tempos_edit.png, id=137, 677.53125pt x 602.25pt>
+File: ../imagens/mapa_superficie_tempos_edit.png Graphic file (type png)
+<use ../imagens/mapa_superficie_tempos_edit.png>
+Package pdftex.def Info: ../imagens/mapa_superficie_tempos_edit.png  used on in
+put line 603.
+(pdftex.def)             Requested size: 469.77148pt x 417.57465pt.
+[8 <../imagens/mapa_superficie_tempos_edit.png>]
+<../imagens/solucao_110x110.png, id=144, 677.53125pt x 602.25pt>
+File: ../imagens/solucao_110x110.png Graphic file (type png)
+<use ../imagens/solucao_110x110.png>
+Package pdftex.def Info: ../imagens/solucao_110x110.png  used on input line 638
+.
+(pdftex.def)             Requested size: 469.77148pt x 417.57465pt.
+[9 <../imagens/solucao_110x110.png (PNG copy)>] [10] (./relatorio_pdf.aux)
 Package rerunfilecheck Info: File `relatorio_pdf.out' has not changed.
-(rerunfilecheck)             Checksum: 19BB9E1BEA68CC12E64E35474B83E575;1542.
+(rerunfilecheck)             Checksum: C85E48D982B1EF992F5B5C22D46F6EBE;2080.
  ) 
 Here is how much of TeX's memory you used:
- 11642 strings out of 481251
- 169031 string characters out of 5914124
- 472379 words of memory out of 5000000
- 28333 multiletter control sequences out of 15000+600000
- 443720 words of font info for 66 fonts, out of 8000000 for 9000
+ 11690 strings out of 481251
+ 170107 string characters out of 5914124
+ 472513 words of memory out of 5000000
+ 28371 multiletter control sequences out of 15000+600000
+ 444346 words of font info for 68 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 71i,6n,74p,661b,396s stack positions out of 5000i,500n,10000p,200000b,80000s
-{c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.e
-nc}{c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.
-enc}{c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ma
-thit.enc}{c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/
-lm-mathsy.enc}{c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvip
-s/lm/lm-mathex.enc}{c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc
-/dvips/lm/lm-ts1.enc}<c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-dist/fonts/t
+ 71i,6n,74p,412b,438s stack positions out of 5000i,500n,10000p,200000b,80000s
+{c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.
+enc}{c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec
+.enc}{c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-r
+m.enc}{c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-
+mathit.enc}{c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/l
+m/lm-mathsy.enc}{c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dv
+ips/lm/lm-mathex.enc}<c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-dist/fonts/t
 ype1/public/lm/lmbx10.pfb><c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-dist/fo
 nts/type1/public/lm/lmbx12.pfb><c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-di
 st/fonts/type1/public/lm/lmex10.pfb><c:/Users/ladei/AppData/Roaming/TinyTeX/tex
@@ -695,11 +693,12 @@ pData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb><c:/Users/ladei
 ladei/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb><c:/Us
 ers/ladei/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb><
 c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.
-pfb>
-Output written on relatorio_pdf.pdf (9 pages, 486454 bytes).
+pfb><c:/Users/ladei/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lm
+tti10.pfb>
+Output written on relatorio_pdf.pdf (10 pages, 566839 bytes).
 PDF statistics:
- 202 PDF objects out of 1000 (max. 8388607)
- 165 compressed objects within 2 object streams
- 36 named destinations out of 1000 (max. 500000)
- 122 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 226 PDF objects out of 1000 (max. 8388607)
+ 187 compressed objects within 2 object streams
+ 41 named destinations out of 1000 (max. 500000)
+ 138 words of extra memory for PDF output out of 10000 (max. 10000000)
 

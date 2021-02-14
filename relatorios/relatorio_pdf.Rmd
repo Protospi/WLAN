@@ -1,23 +1,22 @@
 ---
 title: "Trabalho Computacional - Teoria da Decisão"
 author: "Pedro Loes"
-date: "07/02/2021"
+date: "14/02/2021"
 output: pdf_document
 header-includes:
     - \usepackage{sectsty}
     - \allsectionsfont{\color{red}}
 ---
 
-***
 
 ## Abstract
 
-* \textcolor{blue}{This article comprises an applied problem of the Decision Theory course from the department of electrical engineering of UFMG taught by Professor Lucas Batista. The objective of this work is to apply the optmization and decision techniques taught throughout the semester. The proposed problem aims to minimize the number of access points routers to supply the Mbps consumption demanded by clients in a controlled environment. Also meeting pre-established optimization restrictions.}
+* This article comprises an applied problem of the Decision Theory course from the department of electrical engineering of UFMG taught by Professor Lucas Batista. The objective of this work is to apply the optmization and decision techniques taught throughout the semester. The proposed problem aims to minimize the number of access points routers to supply the Mbps consumption demanded by clients in a controlled environment. Also meeting pre-established optimization restrictions .
 
 ## Introdução
 
-* \textcolor{blue}{O problema foi modelado no software R com implementação da função objetivo em C++.}
-* \textcolor{blue}{Diferentes espaços de busca foram considerados com o intuito de descobrir a partir de qual densidade de espaço de busca discretizado o algoritmo convergiria para a solução de mínimo global ótima.}
+*  O problema foi modelado no software R com implementação da função objetivo em C++ .
+*  Diferentes espaços de busca foram considerados com o intuito de descobrir a partir de qual densidade de espaço de busca discretizado o algoritmo convergiria para a solução de mínimo global ótima .
 
 ## Especificações do Problema
 
@@ -64,46 +63,42 @@ kable(head(wlan,10))
   + O efeito de obstáculos no ambiente são desprezados.
   + Um ponto de acesso não causa interferência em outros.
   
-***
-  
 ## Modelagem
 
-* \textcolor{blue}{Definição de Variáveis:}
-  + \textcolor{blue}{$Pd_i \hspace{0.2cm} \leftarrow$  Pontos de Demanda $i = \{1, 2, 3, ..., 500\}$, $Pd_i \in$ $R\{x, y\}$, x, y = $\{1, ..., 800\}$}
-  + \textcolor{blue}{$Pa_j \hspace{0.16cm} \leftarrow$ Pontos de Acesso $j = \{1, 2, ..., 100\}$, $Pa_j \in$ $R\{x, y\}$, x, y = $\{1, ..., 800\}$}
-  + \textcolor{blue}{$\beta_i \hspace{0.43cm} \leftarrow$  Consumo de banda em Mbps dos Pd's, $\forall \hspace{0.1cm} i \in Pd_i \hspace{0.1cm}$}
-  + \textcolor{blue}{$d_{i,j} \hspace{0.22cm} \leftarrow$  Distância Euclidiana entre $Pd_i$ e $Pa_j$, $\forall \hspace{0.1cm} i \in Pd_i \hspace{0.1cm}$, $\forall \hspace{0.1cm} j \in Pa_j$}
-  + \textcolor{blue}{$\alpha_j \hspace{0.38cm} \leftarrow$  Ativação do $Pa_j$, $\alpha_j$ $\in \{0,1\}$ $\forall \hspace{0.1cm} j \in Pa_j$}
-  + \textcolor{blue}{$\eta_{i,j} \hspace{0.24cm} \leftarrow$  Atendimento do $Pd_i$ pelo $Pa_j$, $\eta_{i,j}$ $\in \{0,1\}$ $\forall \hspace{0.1cm} i \in Pd_i \hspace{0.1cm}$, $\forall \hspace{0.1cm} j \in Pa_j$}
+* Definição de Variáveis:
+  +  $Pd_i \hspace{0.2cm} \leftarrow$  Pontos de Demanda $i = \{1, 2, 3, ..., 500\}$, $Pd_i \in$ $R\{x, y\}$, x, y = $\{1, ..., 800\}$
+  +  $Pa_j \hspace{0.16cm} \leftarrow$ Pontos de Acesso $j = \{1, 2, ..., 100\}$, $Pa_j \in$ $R\{x, y\}$, x, y = $\{1, ..., 800\}$
+  +  $\beta_i \hspace{0.43cm} \leftarrow$  Consumo de banda em Mbps dos Pd's, $\forall \hspace{0.1cm} i \in Pd_i \hspace{0.1cm}$
+  +  $d_{i,j} \hspace{0.22cm} \leftarrow$  Distância Euclidiana entre $Pd_i$ e $Pa_j$, $\forall \hspace{0.1cm} i \in Pd_i \hspace{0.1cm}$, $\forall \hspace{0.1cm} j \in Pa_j$
+  +  $\alpha_j \hspace{0.38cm} \leftarrow$  Ativação do $Pa_j$, $\alpha_j$ $\in \{0,1\}$ $\forall \hspace{0.1cm} j \in Pa_j$
+  +  $\eta_{i,j} \hspace{0.24cm} \leftarrow$  Atendimento do $Pd_i$ pelo $Pa_j$, $\eta_{i,j}$ $\in \{0,1\}$ $\forall \hspace{0.1cm} i \in Pd_i \hspace{0.1cm}$, $\forall \hspace{0.1cm} j \in Pa_j$
   
 <br>
 
-* \textcolor{blue}{Definição da Função 1:}
-  + \textcolor{blue}{min  $(\sum_{j=1}^{|P_a|} \hspace{0.1cm} \alpha_j)$}
+* Definição da Função 1:
+  +  min  $(\sum_{j=1}^{|P_a|} \hspace{0.1cm} \alpha_j)$
   
 <br>
   
-* \textcolor{blue}{Definição da Função 2:}
-  + \textcolor{blue}{min  $( \sum_{i=1}^{|P_d|} \hspace{0.1cm} \sum_{j=1}^{|P_a|} \hspace{0.1cm} d_{i,j} \hspace{0.1cm} \times \hspace{0.1cm} \eta_{i,j})$}
+* Definição da Função 2:
+  +  min  $( \sum_{i=1}^{|P_d|} \hspace{0.1cm} \sum_{j=1}^{|P_a|} \hspace{0.1cm} d_{i,j} \hspace{0.1cm} \times \hspace{0.1cm} \eta_{i,j})$
   
 <br>
   
-* \textcolor{blue}{Definição das Restrições:}
-  + \textcolor{blue}{$\sum_{i=1}^{|P_d|}\hspace{0.1cm} \sum_{j=1}^{|P_a|} \hspace{0.1cm} \eta_{i,j} \hspace{0.1cm} \geq \hspace{0.1cm} 475$}
-  + \textcolor{blue}{$\sum_{i=1}^{|P_d|} \hspace{0.1cm} \eta_{i,j} \hspace{0.1cm}  \times \hspace{0.1cm} \beta_i \hspace{0.1cm} \le \hspace{0.1cm} 150 \hspace{0.3cm} \forall \hspace{0.1cm} j \in \alpha_j=1$}
-  + \textcolor{blue}{$\sum_{j=1}^{|Pa|} \hspace{0.1cm} \eta_{i,j} \hspace{0.1cm} \le \hspace{0.1cm} 1 \hspace{0.3cm} \forall \hspace{0.1cm} i \in Pd$}
-  + \textcolor{blue}{$\sum_{j=1}^{|Pa|} \hspace{0.1cm} \alpha_j \hspace{0.1cm} \le \hspace{0.1cm} 100$}
-  + \textcolor{blue}{$\exists \hspace{0.1cm} \eta_{i,j} \hspace{0.1cm} \forall \hspace{0.1cm} d_{i,j} \hspace{0.1cm} \le \hspace{0.1cm} 85$}
-  
-***
-
+* Definição das Restrições:
+  +  $\sum_{i=1}^{|P_d|}\hspace{0.1cm} \sum_{j=1}^{|P_a|} \hspace{0.1cm} \eta_{i,j} \hspace{0.1cm} \geq \hspace{0.1cm} 475$
+  +  $\sum_{i=1}^{|P_d|} \hspace{0.1cm} \eta_{i,j} \hspace{0.1cm}  \times \hspace{0.1cm} \beta_i \hspace{0.1cm} \le \hspace{0.1cm} 150 \hspace{0.3cm} \forall \hspace{0.1cm} j \in \alpha_j=1$
+  +  $\sum_{j=1}^{|Pa|} \hspace{0.1cm} \eta_{i,j} \hspace{0.1cm} \le \hspace{0.1cm} 1 \hspace{0.3cm} \forall \hspace{0.1cm} i \in Pd$
+  +  $\sum_{j=1}^{|Pa|} \hspace{0.1cm} \alpha_j \hspace{0.1cm} \le \hspace{0.1cm} 100$
+  +  $\exists \hspace{0.1cm} \eta_{i,j} \hspace{0.1cm} \forall \hspace{0.1cm} d_{i,j} \hspace{0.1cm} \le \hspace{0.1cm} 85$
+ 
 
 ## Análise Exploratória
 
 
-* \textcolor{blue}{Para ilustrar uma visão inicial da distribuição dos clientes no espaço de 800 x 800 foi elaborado um gráfico de dispersão 2d com os dados da localização (x, y) dos pontos de demanda.}
-* \textcolor{blue}{O parâmetro alpha de transparência foi alterado para 0.5 com o intuito de eliminar o problema da sobreposição de Pd's e facilitar a compreesão da densidade destes pontos.}
-* \textcolor{blue}{A dimensão de cor foi adicionada considerando o gradiente das cores preta até azul para o consumo de largura de banda requisitada em Mbps por cada cliente.}
+*  Para ilustrar uma visão inicial da distribuição dos clientes no espaço de 800 x 800 foi elaborado um gráfico de dispersão 2d com os dados da localização (x, y) dos pontos de demanda .
+*  O parâmetro alpha de transparência foi alterado para 0.5 com o intuito de eliminar o problema da sobreposição de Pd's e facilitar a compreesão da densidade destes pontos .
+*  A dimensão de cor foi adicionada considerando o gradiente das cores preta até azul para o consumo de largura de banda requisitada em Mbps por cada cliente.
 
 
 ```{r warning=F, message=F, error=F, echo=F, fig.height=8 , fig.width=9, fig.align="center"}
@@ -111,168 +106,214 @@ kable(head(wlan,10))
 # Desenha posicao dos pontos de demanda
 wlan %>% 
   ggplot(aes(x = x, y = y, color = Mbps))+
-    geom_point(alpha = 0.5)+
+    geom_point(alpha = 0.5, size = 3)+
     ggtitle("Gráfico de Dispersão dos Pontos de Demanda",
             subtitle = "Localização dos clientes e seus respectivos consumos em Mbps")
 
 ```
 
-* \textcolor{blue}{Existem 2 grandes clusters na dispersão da localização dos clientes em torno dos pontos (200, 200) e (600, 600). Os demais pontos apresentam distribuição esparsa na área de 800 x 800.}
+*  Existem 2 grandes clusters na dispersão da localização dos clientes em torno dos pontos (200, 200) e (600, 600). Os demais pontos apresentam distribuição esparsa na área de 800 x 800.
 
-* \textcolor{blue}{Na diagonal que vai de (0,0) até (800,800) os pontos de demanda são menos espalhados enquanto que na diagonal (0,800) até (800,0) os pontos estão mais dispersos.}
+*  Na diagonal que vai de (0,0) até (800,800) os pontos de demanda são menos espalhados enquanto que na diagonal (0,800) até (800,0) os pontos estão mais dispersos.
 
-* \textcolor{blue}{Parece não existir padrão visual para a distribuição das demandas de Mbps.}
+*  Parece não existir padrão visual para a distribuição das demandas de Mbps.
 
 
 ## Espaços de Busca 
 
-* \textcolor{blue}{A construção de empaços de busca considerou espaços discretizados na forma de matrizes quadradas do tipo $M_{(i,j)}$ com $i = \{8, 9, ..., 150\}$ e $j = \{8, 9, ..., 150\}$ dentro da área de 800 x 800. Cada (i,j) representa a possível localização de um ponto de acesso.}
+*  Se considerada uma escala continua, a área de 800 x 800 metros possuí infinitas coordenadas de possíveis localizações para os pontos de acesso.
 
-* \textcolor{blue}{Para ilustrar a construção do espaço discretizado de busca foram consideradas as matrizes de $M_{8,8}$ até $M_{128,128}$.}
-
-
-![](../imagens/espacos_discretos.png){width=70%, height=100%}
+*  A construção de espaços de busca considerou espaços discretizados na forma de matrizes do tipo $M_{(i,j)}$ com $i = \{8, 9, ..., 150\}$ e $j = \{8, 9, ..., 150\}$. A posição `i` representa a quantidade de posições igualmente espaçadas no eixo x e da mesma forma, a posição `j` no eixo y.
 
 
-* \textcolor{blue}{Conforme a dimensão da matriz de espaço de busca aumenta é possivel visualizar o aumento de granularidade na inspeção do espaço de busca.}
+![](../imagens/espacos_discretos_irregulares.png){width=70%, height=100%}
 
-* \textcolor{blue}{O algoritimo completo considerou espaços discretos entre 8 x 8 até 150 x 150.}
+*  O 1º gráfico no canto superior esquerdo ilustra a discretização da área de 800 x 800 em 8 posições igualmente espaçadas para o eixo x e y totalizando 64 possíveis localizações para os pontos de acesso.
 
-* [\textcolor{orange}{LINK da Apresentação em Slides: Como Funciona o Algoritmo}](https://rpubs.com/Drope/algoritmo)
+*  Os gráficos fora da diagonal principal ilustram alguns dos espaços discretos irregulares arbitrariamente escolhidos, ou seja, o número de posições diferente para os eixos x e y.
+
+*  O último gráfico no canto inferior direito ilustra a discretização da área de 800 x 800 em 150 posições igualmente espaçadas para o eixo x e y totalizando 22500 possíveis localizações para os pontos de acesso.
+
+* [\textcolor{green}{LINK da Apresentação em Slides: Como Funciona o Algoritmo}](https://rpubs.com/Drope/algoritmo)
 
 
 ## Prototipagem do Algoritmo 
 
-* \textcolor{blue}{Função Conta Pontos em C++}
+* Testes exploratórios:
+  + Discretizações menos granulares que $M_{(8,8)}$ não apresentam solução. 
+  + Discretizações mais granulares que $M_{(150,150)}$ apresentam convergência estável. 
+  + O custo computacional para executar o algoritmo em `R` foi na unidade de dias.
+  
+* Os laços para inspecionar o melhor posicionamento dos pontos de acesso em diferentes espaços de busca foram prototipados em `C++`.
+
+* A importação dos dados, a declaração de objetos e a construção dos espaços de busca foram prototipados no ambiente `R`.
+
+### Prototipagem do modulo Rastreador em C++
 
 ```{Rcpp eval = F}
-double square(double x){double squared = x * x; return squared;}
+
+// Função para calcular o quadrado de um número
+double enquadra(double x){
+  double quadrado = x * x;
+  return quadrado;
+}
+
+// Função para contar o nº de Pd's cobertos pelo raio de um Pa
 std::vector<double> conta_pontos(x, y, wlanx, wlany, indice) {
   int n = wlany.size(); double soma; double raio = square(85); indices(0);
   for(int i = 0; i < n; i++) {
-    soma = square(wlanx[i] - x) + square(wlany[i] - y);
+    soma = enquadra(wlanx[i] - x) + square(wlany[i] - y);
     if( soma <= raio) {
       indices.push_back(indice[i]);}}
   return indices;
 }
+  
+// Função para inspecionar espaços de busca discretos  
+List rastreia(int intervalo_x, int intervalo_y, DoubleVector wlanx,
+              DoubleVector wlany, DoubleVector centro_x, DoubleVector centro_y,
+              NumericVector indice, int mais_populoso, std::vector<int> viola) {
+  std::vector<double> cobertura(0);
+  List ret;
+  int intervalos = intervalo_x * intervalo_y; 
+  for (int j = 2; j <= intervalos; j++) {
+    if( (conta_pontos(centro_x[j],centro_y[j],
+                      wlanx, wlany, indice).size() >= 
+         conta_pontos(centro_x[mais_populoso], centro_y[mais_populoso],
+                      wlanx, wlany, indice).size() ) &&
+        (! std::count(viola.begin(), viola.end(), mais_populoso) ) ){
+      mais_populoso = j;
+      cobertura = conta_pontos(centro_x[mais_populoso],
+                               centro_y[mais_populoso],wlanx,wlany,indice);}
+    ret["cobertura"] = cobertura;
+    ret["mais_populoso"] = mais_populoso;}
+  return ret;}
+}
+  
 ```
 
-* \textcolor{blue}{Algoritimo de Convergência em R}
+* A inspeção das matrizes de busca de espaços discretos quadrados e não quadrados entre $M_{(8,8)}$ e $M_{(150,150)}$, bem como a contagem de pontos de demanda dentro do raio de cobertura de um ponto de acesso foram prototipadas com o modulo rastreador no ambiente C++. Esse modulo contêm as seguintes funções:
+  + `enquadra` eleva um número ao quadrado.
+  + `conta_pontos` conta o número de pontos dentro do raio de cobertura de um ponto de acesso.
+  + `rastreia` inspeciona as melhores coordenadas para cada ponto de acesso dado um espaço discreto.
+  
+
+### Prototipagem dos Espaços de Busca em R
+
+*  Para leitura dos dados e laço para combinação de espaços foram utilizadas as facilidades dos ambiente R em operar com data frames e gerar vetores de sequências. 
 
 ```{r eval = F}
+# Declara objetos e carrega modulo rastreador.cpp 
 wlan_completa <- read_csv("clientes.csv", col_names = c("x", "y", "Mbps"))
 wlan_id <- wlan_completa %>% mutate(indice = 1:nrow(wlan_completa))
-sourceCpp('conta_pontos.cpp')
 performance <- tibble(intervalos = 8:50, PA = rep(0,143), tempo = rep(0,143))
-for(intervalo in seq(8, 150, by = 1)){
-  wlan <- wlan_id
-  centro_x <- rep(seq(0, 800, length.out = intervalo), each = intervalo)  
-  centro_y <- rep(seq(0, 800, length.out = intervalo), times = intervalo)
-  vencedores <- NULL; contador <- 0 ;Mbps <- NULL; viola <- NULL
-  inicio <- Sys.time()
-  while(contador < 475){
-    cobertura <- NULL
-    populoso <- 1
-    for(i in seq(2, intervalo^2, by = 1)){
-      if(length(conta_pontos(x = centro_x[i], y = centro_y[i],
-                             wlanx = wlan$x, wlany = wlan$y, indice = wlan$indice)) >= 
-         length(conta_pontos(x = centro_x[populoso], y = centro_y[populoso],
-                             wlanx = wlan$x, wlany = wlan$y, indice = wlan$indice))&
-         (!i %in% viola) ){
-        populoso <- i
-        cobertura <- conta_pontos(x = centro_x[populoso], y = centro_y[populoso],
-                                  wlanx = wlan$x, wlany = wlan$y, indice = wlan$indice)}}
-    megas <- wlan %>% 
-              filter(indice %in% as.integer(cobertura)) %>%
-              summarise(total = sum(Mbps)) %>%
-              pull(total)
-    if(megas < 150){
-      Mbps <- c(Mbps, megas)
-      vencedores <- c(vencedores, populoso)
-      wlan <- wlan %>% filter(!indice %in% as.integer(cobertura) )
-      contador <- contador + length(cobertura)} else { viola <- c(viola, populoso)}}
-  fim <- Sys.time()
-  performance$tempo[intervalo-7] <- fim - inicio
-  performance$PA[intervalo-7] <- length(vencedores)
+sourceCpp('rastreador.cpp')
+
+# Laços para combinação de espaços discretos
+for(intervalo_x in seq(8, 150, by = 1)){
+  for(intervalo_y in seq(8, 150, by = 1)){
+    centro_x <- rep(seq(0, 800, length.out = intervalo_x), each = intervalo_y)  
+    centro_y <- rep(seq(0, 800, length.out = intervalo_y), times = intervalo_x)
+    wlan <- wlan_id; vencedores <- NULL; contador <- 0; Mbps <- NULL; viola <- numeric(1)
+    inicio <- Sys.time()
+    while(contador < 475){
+      cobertura <- NULL; mais_populoso <- 1
+      rastreado <- rastrreia(intervalo_x = intervalo_x, intervalo_y = intervalo_y,
+                             wlanx = wlan$x, wlany = wlan$y,
+                             centro_x = centro_x, centro_y = centro_y,
+                             indice = wlan$indice, mais_populoso = mais_populoso,
+                             viola = viola) 
+      megas <- wlan %>% 
+        filter(indice %in% as.integer(rastreado[[1]])) %>%
+        summarise(total = sum(consumo)) %>%
+        pull(total)
+      if(megas < 150){
+        Mbps <- c( Mbps, megas)
+        vencedores <- c(vencedores, rastreado[[2]])
+        wlan <- wlan %>% filter(!indice %in% as.integer(rastreado[[1]]) )
+        contador <- contador + length(rastreado[[1]])
+        print(paste0("Indice: ", intervalo_x, " - ", intervalo_y, " - ",
+                     "Contador: ", contador))} else { viola <- c(viola, rastreado[[2]])}}
+    fim <- Sys.time()
+    performance$tempo[indice_perfor] <- fim - inicio
+    performance$PA[indice_perfor] <- length(vencedores)
+    indice_perfor <- indice_perfor + 1}}
 }
 ```
 
+* A função `rastreia` foi utilizada no ambiente `R` por meio do pacote `Rcpp` que carrega o modulo `rastreador.cpp` e constrói a conexão entre os dois ambientes. 
+
+
 ## Convergência
 
-* \textcolor{blue}{O algoritmo completo utlizado para convergência considerou espaços de busca de $M_{8,8}$ até $M_{150,150}$ contabilizando o máximo de 22500 coordenadas para possíveis localizações dos pontos de acesso.}
+*  O algoritmo completo utlizado para convergência considerou as combinações de espaços de busca de $M_{8,8}$ até $M_{150,150}$ contabilizando o mínimo de 64 o máximo de 22500 coordenadas para possíveis localizações dos pontos de acesso .
 
-* \textcolor{blue}{Para cada espaço de busca foi contabilizado o número de Pontos de Acesso para atingir uma solução ótima.}
-
-
-![](../imagens/convergencia.png){width=100%, height=100%}
+*  O mapa de superfície tridimensional foi construído para ilustrar as regiões de inspeção do algoritmo. O gradiente das cores azul(máximo) e vermelho(mínimo) foi utilizado como a terceira dimensão do gráfico para ilustrar o número de pontos de acesso necessários para atingir um mínimo local ou global em cada combinação de discretização do espaço.
 
 
-* \textcolor{blue}{O Ponto na coordenada 8 do eixo $Espaço_{(x,x)}$ e 20 no eixo Nº de Pontos de Acesso, corresponde a varredura do espaço de busca $M_{(8,8)}$ que atinge a solução ótima de mínimo local com 20 Pontos de Acesso.}
+![](../imagens/mapa_superficie_pas.png){width=100%, height=100%}
 
 
-* \textcolor{blue}{Entre $M_{(8,8)}$ e $M_{(30,30)}$ o algoritimo passa pelos locais de 20 até 13, em $M_{(40,40)}$ até $M_{(53,53)}$ o algoritimo estabiliza em 13 Pa's, em $M_{(64,64)}$ o algoritimo atinge pela primeira vez o mínimo global de 12 Pa's e entre $M_{(65,65)}$ e $M_{(115,115)}$ oscila entre 12 e 13 Pa's estabilizando em 12 Pa's para espaços mais densos que $M_{(116,116)}$} 
+*  O ponto na coordenada i = 8 do eixo $M_{(i)}$ e j = 8 do eixo $M_{(j)}$, corresponde a inspeção do espaço de busca $M_{(8,8)}$ que atinge a pior solução ótima de mínimo local gastando 20 Pa's.
 
-* \textcolor{blue}{Como foram utilizados espaços de busca que começavam sempre na coordenada 1 e a maioria dos pontos de demanda não estão próximos das extremidades da área de 800 x 800, é razoável considerar que outros pontos de ínicio para os espaços de busca talvez apresentem melhor performance.} 
+*  Entre $M_{(8,8)}$ e $M_{(30,30)}$ o algoritimo passa pelos mínimos locais de 20 até 13, em $M_{(27,43)}$ atinge pela primeira vez o mínimo global de 12 Pa's $M_{(90,75)}$ o algoritimo começa a estabilizar em 12 Pa's com a maioria dos epaços convergindo para 12 Pa's. 
+
+*  O algoritmo estabiliza em 12 Pa´s para espaços discretos mais granularizados que $M_{(110,110)}$ indicando convergência porque até $M_{(150,150)}$ o número de Pa's permanece o mesmo. 
 
 
 ## Custo Computacional
 
-* \textcolor{blue}{Para comparar as performances do algoritimo em diferentes espaços de busca foi utilizada a função Sys.time() do R para verificar o tempo computacional gasto a cada interação de varredura dos espaços de busca.}
+*  As performances de custo computacional do algoritimo nas combinações de espaços de busca foram comparadas utilizando a função `Sys.time()` do `R`. O hardware utilizado foi um processador Intel i7 com 16 GB RAM.
 
-* \textcolor{blue}{O heardware utilizado foi um processador Intel i7 com 16 GB RAM}
+*  O mapa de superfície tridimensional foi construído para ilustrar os tempos computacionais necessários para atingir um mínimo local ou global em cada combinação de discretização do espaço.
 
-![](../imagens/custo_computacional.png){width=100%, height=100%}
+![](../imagens/mapa_superficie_tempos_edit.png){width=100%, height=100%}
 
-* \textcolor{blue}{O Ponto na coordenada 8 do eixo $Espaço_{(x,x)}$ e 0,2234 no eixo Tempo (segundos), corresponde a varredura do espaço de busca $M_{(8,8)}$ que atinge a solução ótima de mínimo local com custo computacional de 0.2 segundos.}
+*  O ponto na coordenada i = 8 do eixo $M_{(i)}$ e j = 8 do eixo $M_{(j)}$, corresponde a inspeção do espaço de busca $M_{(8,8)}$ que atinge a pior solução ótima de mínimo local com custo computacional de 0.02 segundos.
 
-* \textcolor{blue}{A curva do tempo computacional apresenta leves ocilações em torno de sua tendência que provavelmente são oriundas das particularidades do funcionamento do hardware.}
+*  É possível observar 9 intervalos bem distintos com alguns poucos pontos discrepantes dentro de cada curva de nível. Pode-se verificar que a curva vai se tornando mais linear a medida que se aproxima dos maiores tempos. Os custo variaram entre 0.02 e 0.48 segundos.
 
-* \textcolor{blue}{Como a função de contagem de pontos foi implementada em C++, a performance apresentou resultados muito superiores se comparados aos obtidos com toda a prototipagem em R.}
-
-* \textcolor{blue}{O crescimento do tempo computacional é visivelmente não linear e apesar que convergir para a solução ótima global de 12 Pa's apartir de 2.5 segundos, a varredura de $M_{(800,800)}$ com 640000 possíveis localizações dos pontos de acesso custou mais que um dia para encontrar o mesmo ótimo global.}
-
+*  O custo computacional total gasto para inspecionar todos os espaços discretos foi de aproximadamente de 41 minutos.
 
 ## Mínimo Global 
 
-* \textcolor{blue}{A solução ótima considerou o espaço de busca $M_{(80,80)}$ totalizando 6400 coordenadas de possíveis localizações para os pontos de acesso. Essa solução foi escolhida porque 80 é o ponto intermediário de um plato com 3 soluções consecutivas sobre o mínimo global, ou seja, a primeira vez que a solução global estabiliza.}
+*  A solução ótima de mínimo global considerou o espaço de busca $M_{(110,110)}$ totalizando 12100 coordenadas de possíveis localizações para os pontos de acesso. Essa solução foi escolhida porque é um ponto de transição da convergência para estabilização do mínimo global.
 
-* \textcolor{blue}{O algoritmo varreu o espaço de busca de 6400 possíveis localizações dos pontos de acesso para determinar a localização de pontos ótimos que minimizam o número de pontos de acesso e que cobrem 95 porcento da demanda sem ultrapassar o máximo de 150 Mbps para a cobertura de cada ponto de acesso.}
+*  O algoritmo varreu o espaço de busca de 12100 possíveis localizações para os pontos de acesso e recuperou as localização de 12 coordenadas que minimizam o número de pontos de acesso e satisfazem as condições do problema.
 
 
-![](../imagens/solucao_80x80.png){width=100%, height=100%}
+![](../imagens/solucao_110x110.png){width=100%, height=100%}
 
-* \textcolor{blue}{É possível observar que ocorre somente uma sobreposição de áreas de cobertura dos pontos de acesso no quadrante superior esquerdo do gráfico.}
+*  O algoritmo gastou 0.35 segundos para atingir o mínimo local de 12 Pa's. É possível observar que ocorre somente uma sobreposição de áreas de cobertura dos pontos de acesso no quadrante superior direito do gráfico .
 
-* \textcolor{blue}{Alguns pontos de acesso cobrem apenas 4 pontos de demanda e poderiam estar localizados em outras regiões cobrindo o mesmo número de pontos cobertos pela solução apresentada. Tal fato indica a existência de soluções diferentes mais igualmente eficientes apontadas pelo algoritmo de convergência.}
+*  Os 2 Pa's colocados nas coordenadas (192, 199) e (609, 587) estão cobrindo um grande número de Pd's podendo apresentar consumos de banda próximos da saturação. 
 
 ## Tabela de Resultados
 
-* \textcolor{blue}{Tabela de localização dos 12 Pa's na área de 800 x 800 com os respectivos consumos totais:}
+*  Tabela de localização dos 12 Pa's na área de 800 x 800 com os respectivos consumos totais:}
 
 ```{r warning=F, message=F, error=F, echo=F}
 
 # Declara data frame de Pontos otimos e consumo
 otimo <- tibble(Pa = 1:12,
-                x = c(191, 621, 181, 681, 491, 421,  91, 701, 601, 451, 721, 371),
-                y = c(201, 601, 551, 371, 491, 271, 691, 691, 191,  71,  31, 661),
-                `Consumo (Mbps)` = c(146.5, 146.8, 7.4, 6.7, 6.2, 4.5, 5.0, 5.4, 6.6, 3.7, 4.6, 2.1))
+                x = c(192, 609, 177, 683, 485, 404, 697, 602, 96, 448, 727, 375),
+                y = c(199, 587, 565, 368, 477, 243, 683, 184, 712, 67, 8, 653),
+                `Consumo (Mbps)` = c(147.2, 148.1, 6.9, 6.7, 5.7, 5.8, 5.4, 6.6, 4.2, 3.7, 4.6, 2.1))
 
 # Tabela de pontos otimos
 kable(otimo)
 
 ```
 
-* \textcolor{blue}{É possível observar que os dois clusters principais com um total de 146 Mbps de consumo estão muito próximos da saturação e talvez fosse adequado a colocação de mais 2 Pa's nessas regiões para garantir a integridade da entrega do sinal onde há maior concentração de pontos de demanda.}
+*  É possível observar que os dois clusters principais com um total de 146 Mbps de consumo estão muito próximos da saturação e talvez fosse adequado a colocação de mais 2 Pa's nessas regiões para garantir a integridade da entrega do sinal onde há maior concentração de pontos de demanda .
 
-* \textcolor{blue}{Outra possível solução seria o deslocamento de 2 Pa's com poucos pontos de consumo para as regiões de clusters de forma que a sobreposição parcial de 2 pontos de acesso sobre os clusters principais diminua o consumo dos Pa's no limiar da saturação e também cubra os pontos vizinhos aos clusters garantindo a cobertura dos mesmos 475 pontos de demanda sem aumentar o número de Pa's.}
+*  Outra possível solução seria o deslocamento de 2 Pa's com poucos pontos de consumo para as regiões de clusters de forma que a sobreposição parcial de 2 pontos de acesso sobre os clusters principais diminua o consumo dos Pa's no limiar da saturação e também cubra os pontos vizinhos aos clusters garantindo a cobertura dos mesmos 475 pontos de demanda sem aumentar o número de Pa's .
 
-***
 
 ## Referências
 
-* \textcolor{blue}{Para desenvolver este trabalho foram utilizados os slides e videos fornecidos pelo Professor Lucas Batista do departamento de Engenharia Elétrica da UFMG.}
+*  Para desenvolver este trabalho foram utilizados os slides e videos fornecidos pelo Professor Lucas Batista do departamento de Engenharia Elétrica da UFMG .
 
-* \textcolor{blue}{Devido a questões legais de proteção aos direitos autorais e regras da UFMG, os slides e videos não puderam ser compartilhados.}
+*  Devido a questões legais de proteção aos direitos autorais e regras da UFMG, os slides e videos não puderam ser compartilhados .
 
 
 

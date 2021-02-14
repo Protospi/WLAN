@@ -120,15 +120,15 @@ for(intervalo_x in seq(8, 150, by = 1)){
       mais_populoso <- 1
       
       # Chama funcao
-      rastreado <- rastreador(intervalo_x = intervalo_x,
-                              intervalo_y = intervalo_y,
-                              wlanx = wlan$x,
-                              wlany = wlan$y,
-                              centro_x = centro_x,
-                              centro_y = centro_y,
-                              indice = wlan$indice,
-                              mais_populoso = mais_populoso,
-                              viola = viola) 
+      rastreado <- rastreia(intervalo_x = intervalo_x,
+                            intervalo_y = intervalo_y,
+                            wlanx = wlan$x,
+                            wlany = wlan$y,
+                            centro_x = centro_x,
+                            centro_y = centro_y,
+                            indice = wlan$indice,
+                            mais_populoso = mais_populoso,
+                            viola = viola) 
       
       # Atualiza total de megas
       megas <- wlan %>% 
@@ -193,8 +193,8 @@ coul <- brewer.pal(8, "RdBu")
 ggplot(performance, aes(intervalos_x, intervalos_y, z = PA)) +
   geom_contour_filled(binwidth = 1) +
   scale_fill_manual(values = coul)+
-  ggtitle("Mapa de Superfície dos Pa's",
-          subtitle = "Matrizes de Espaços Discretos de 8 x 8 até 150 x 150")+
+  ggtitle("Mapa de Superfície dos Mínimos Locais e Globais",
+          subtitle = "Nº mínimo de pontos de acesso para cada combinação dos espaços discretos de 8 x 8 até 150 x 150.")+
   theme(plot.title = element_text(size=12),
         plot.subtitle = element_text(size=10)) +
   xlab(expression(M["( i )"])) +
@@ -206,6 +206,9 @@ ggplot(performance, aes(intervalos_x, intervalos_y, z = PA)) +
 
 # ------------------------------------------------------------------------
 
+# Gera 6 cores
+coul <- brewer.pal(5, "RdBu") 
+
 # Adiciona cores
 coul <- colorRampPalette(coul)(9)
 
@@ -214,7 +217,7 @@ ggplot(performance, aes(intervalos_x, intervalos_y, z = tempo))+
   geom_contour_filled()+
   scale_fill_manual(values = coul)+
   ggtitle("Mapa de Superfície dos Tempos Computacionais",
-          subtitle = "Matrizes de Espaços Discretos de 8 x 8 até 150 x 150")+
+          subtitle = "Tempo Computacional em segundos para cada combinação dos espaços discretos de 8 x 8 até 150 x 150.")+
   theme(plot.title = element_text(size=12),
         plot.subtitle = element_text(size=10)) +
   xlab(expression(M["( i )"])) +

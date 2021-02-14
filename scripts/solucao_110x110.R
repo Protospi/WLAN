@@ -1,7 +1,7 @@
 
 # --------------------------------------------------------------------------
 
-# Algoritimo em C++ 64000 circulos
+# Solução com espaço discreto M de 120 x 120
 
 # --------------------------------------------------------------------------
 
@@ -19,13 +19,13 @@ wlan <- wlan_completa %>%
   mutate(indice = 1:nrow(wlan_completa))
 
 # Declara base de circulos espaco de solucoes
-centro_x <- rep(seq(1, 800, by = 10), each = 80)  
-centro_y <- rep(seq(1, 800, by = 10), times = 80) 
+centro_x <- rep(seq(1, 800, length.out = 110), each = 110)  
+centro_y <- rep(seq(1, 800, length.out = 110), times = 110) 
 
 # --------------------------------------------------------------------------
 
 # Implementacao de conta_pontos em cpp
-sourceCpp('conta_pontos.cpp')
+sourceCpp('scripts/rastreador.cpp')
 
 # --------------------------------------------------------------------------
 
@@ -39,7 +39,7 @@ contador <- 0
 Mbps <- NULL
 
 # Vetor de Pa's que violam condicao de Mbps
-viola <- NULL
+viola <- 0
 
 # Marca tempo de inicio
 inicio <- Sys.time()
@@ -53,39 +53,20 @@ while(contador < 475){
   # Declara Inicio
   mais_populoso <- 1
   
-  # Laco para determinar maior contagem
-  for(i in 2:6400){
-    
-    # Condicao para comparar circulos com maior quantidade de pontos
-    if( (length(conta_pontos(x = centro_x[i],
-                             y = centro_y[i],
-                             wlanx = wlan$x,
-                             wlany = wlan$y,
-                             indice = wlan$indice)) >= 
-         length(conta_pontos(x = centro_x[mais_populoso],
-                             y = centro_y[mais_populoso],
-                             wlanx = wlan$x,
-                             wlany = wlan$y,
-                             indice = wlan$indice)) ) &
-        (!i %in% viola) ){
-      
-      # Atualiza circulo mais populoso
-      mais_populoso <- i
-      
-      # Atualiza pontos cobertos por circulo mais populoso
-      cobertura <- conta_pontos(x = centro_x[mais_populoso],
-                                y = centro_y[mais_populoso],
-                                wlanx = wlan$x,
-                                wlany = wlan$y,
-                                indice = wlan$indice)
-      
-    }
-    
-  }
+  # Chama funcao
+  rastreado <- rastreia(intervalo_x = 110,
+                        intervalo_y = 110,
+                        wlanx = wlan$x,
+                        wlany = wlan$y,
+                        centro_x = centro_x,
+                        centro_y = centro_y,
+                        indice = wlan$indice,
+                        mais_populoso = mais_populoso,
+                        viola = viola)
   
   # Atualiza total de megas
   megas <- wlan %>% 
-    filter(indice %in% as.integer(cobertura)) %>%
+    filter(indice %in% as.integer(rastreado[[1]])) %>%
     summarise(total = sum(Mbps)) %>%
     pull(total)
   
@@ -96,21 +77,23 @@ while(contador < 475){
     Mbps <- c( Mbps, megas)
     
     # Atualiza vencedores
-    vencedores <- c(vencedores, mais_populoso)
+    vencedores <- c(vencedores, rastreado[[2]])
     
     # Remove pontos ja cobertos
-    wlan <- wlan %>% filter(!indice %in% as.integer(cobertura) )
+    wlan <- wlan %>% filter(!indice %in% as.integer(rastreado[[1]]) )
     
     # Atualiza contador
-    contador <- contador + length(cobertura)
+    contador <- contador + length(rastreado[[1]])
     
     # Verbaliza passos da funcao
-    print(contador)
+    print(paste0("Indice: ", intervalo_x, " - ",
+                 intervalo_y, " - ",
+                 "Contador: ", contador))
     
   } else {
     
     # Insere indice de pa que viola condicoes
-    viola <- c(viola, mais_populoso)
+    viola <- c(viola, rastreado[[2]])
     
   }
   
@@ -144,6 +127,24 @@ circulos_df <- tibble(grau = 1:360)
 # Declara nome de colunas
 colunas <- c("x", "y")
 
+# Grafico Base
+p <- ggplot()+
+  geom_point(aes(x = x, y = y, color = Mbps),
+             data = wlan_completa,
+             alpha = 0.8, size = 3) 
+
+# Desenha Pa's vermelhos
+p <- p + geom_point(resultados,
+                    mapping =  aes(x = x, y = y, fill = "red"),
+                    color = "red",
+                    size =  3,
+                    alpha = 0.9) +
+  ggtitle("Posição Ótima para os Pontos de Acesso",
+          subtitle = "Mínimo global de 12 Pa's no espaço discreto de 110 x 110.")+
+  theme(plot.title = element_text(size=12),
+        plot.subtitle = element_text(size=10))+
+  scale_fill_identity(name = "Pa's", guide = 'legend', labels = c('')) 
+
 # Laco para construcao de variaveis 
 for(i in vencedores){
   
@@ -154,12 +155,6 @@ for(i in vencedores){
     rename_with(.fn = ~paste0(., as.character(i)),
                 .cols = all_of(colunas))
 }
-
-# Grafico Base
-p <- ggplot()+
-  geom_point(aes(x = x, y = y, color = Mbps),
-             data = wlan_completa,
-             alpha = 0.8) 
 
 # Popula grafico com circulos
 for(i in vencedores){
@@ -174,21 +169,9 @@ for(i in vencedores){
                      data = df,
                      color = "orange",
                      size = 2.5,
-                     alpha = 0.05)
+                     alpha = 0.1)
   
 }
-
-# Desenha centros
-p <- p + geom_point(resultados,
-                    mapping =  aes(x = x, y = y, fill = "red"),
-                    color = "red",
-                    size =  3,
-                    alpha = 0.9) +
-  ggtitle("Solução Ótima para os Pontos de Acesso",
-          subtitle = "Solução de 14 Pa's no espaço discreto de 80 x 80 com máximo de 140 Mbps por Pa")+
-  theme(plot.title = element_text(size=12),
-        plot.subtitle = element_text(size=10))+
-  scale_fill_identity(name = "Pa's", guide = 'legend', labels = c('')) 
 
 
 # --------------------------------------------------------------------------
@@ -201,8 +184,8 @@ for(i in vencedores){
   
   # Popula Circulos
   circulos_df <- circulos_df %>%
-    mutate(x = centro_x[i] + 60 * cos(1:360),
-           y = centro_y[i] + 60 * sin(1:360)) %>%
+    mutate(x = centro_x[i] + 62.5 * cos(1:360),
+           y = centro_y[i] + 62.5 * sin(1:360)) %>%
     rename_with(.fn = ~paste0(., as.character(i)),
                 .cols = all_of(colunas))
 }
@@ -219,8 +202,8 @@ for(i in vencedores){
                                    y = y),
                      data = df,
                      color = "orange",
-                     size = 1.5,
-                     alpha = 0.05)
+                     size = 1.7,
+                     alpha = 0.15)
   
 }
 
@@ -253,7 +236,7 @@ for(i in vencedores){
                      data = df,
                      color = "orange",
                      size = 1,
-                     alpha = 0.05)
+                     alpha = 0.4)
   
 }
 
@@ -286,12 +269,20 @@ for(i in vencedores){
                                    y = y),
                      data = df,
                      color = "orange",
-                     size = 0.5,
-                     alpha = 0.05)
+                     size = 0.7,
+                     alpha = 0.7)
   
 }
 
 # --------------------------------------------------------------------------
 
 # Imprime grafico
-p
+p + theme_gray()
+
+# --------------------------------------------------------------------------
+
+# Tabela de Soluções
+round(resultados)
+
+
+# --------------------------------------------------------------------------
