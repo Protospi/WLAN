@@ -207,7 +207,7 @@ for(intervalo in seq(8, 150, by = 1)){
 ![](../imagens/convergencia.png){width=100%, height=100%}
 
 
-* \textcolor{blue}{O primeiro ponto no gráfico ( $Espaço_{(x,x)}$ = 8, Nº de Pontos de Acesso = 20 ), corresponde a varredura do espaço de busca $M_{(8,8)}$ que atinge a solução ótima de mínimo local com 20 Pontos de Acesso.}
+* \textcolor{blue}{O Ponto na coordenada 8 do eixo $Espaço_{(x,x)}$ e 20 no eixo Nº de Pontos de Acesso, corresponde a varredura do espaço de busca $M_{(8,8)}$ que atinge a solução ótima de mínimo local com 20 Pontos de Acesso.}
 
 
 * \textcolor{blue}{Entre $M_{(8,8)}$ e $M_{(30,30)}$ o algoritimo passa pelos locais de 20 até 13, em $M_{(40,40)}$ até $M_{(53,53)}$ o algoritimo estabiliza em 13 Pa's, em $M_{(64,64)}$ o algoritimo atinge pela primeira vez o mínimo global de 12 Pa's e entre $M_{(65,65)}$ e $M_{(115,115)}$ oscila entre 12 e 13 Pa's estabilizando em 12 Pa's para espaços mais densos que $M_{(116,116)}$} 
@@ -223,13 +223,13 @@ for(intervalo in seq(8, 150, by = 1)){
 
 ![](../imagens/custo_computacional.png){width=100%, height=100%}
 
-* \textcolor{blue}{O primeiro ponto no gráfico ($Espaço_{(x,x)}$ = 8, Tempo (segundos) = 0,2234), corresponde a varredura do espaço de busca $M_{(8,8)}$ que atinge a solução ótima de mínimo local com custo computacional de 0.2 segundos.}
+* \textcolor{blue}{O Ponto na coordenada 8 do eixo $Espaço_{(x,x)}$ e 0,2234 no eixo Tempo (segundos), corresponde a varredura do espaço de busca $M_{(8,8)}$ que atinge a solução ótima de mínimo local com custo computacional de 0.2 segundos.}
 
 * \textcolor{blue}{A curva do tempo computacional apresenta leves ocilações em torno de sua tendência que provavelmente são oriundas das particularidades do funcionamento do hardware.}
 
 * \textcolor{blue}{Como a função de contagem de pontos foi implementada em C++, a performance apresentou resultados muito superiores se comparados aos obtidos com toda a prototipagem em R.}
 
-* \textcolor{blue}{O crescimento do tempo computacional é visivelmente não linear e apesar que convergir para a solução ótima global apartir de 2.5 segundos, a varredura de $M_{(800,800)}$ com 640000 possíveis localizações dos pontos de acesso custo mais de um dia para o algoritimo e identificou o mesmo ótimo global. }
+* \textcolor{blue}{O crescimento do tempo computacional é visivelmente não linear e apesar que convergir para a solução ótima global de 12 Pa's apartir de 2.5 segundos, a varredura de $M_{(800,800)}$ com 640000 possíveis localizações dos pontos de acesso custou mais que um dia para encontrar o mesmo ótimo global.}
 
 
 ## Mínimo Global 
