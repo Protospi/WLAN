@@ -193,19 +193,18 @@ coul <- brewer.pal(8, "RdBu")
 ggplot(performance, aes(intervalos_x, intervalos_y, z = PA)) +
   geom_contour_filled(binwidth = 1) +
   scale_fill_manual(values = coul)+
-  ggtitle("Mapa de Superficie dos Pa's",
+  ggtitle("Mapa de Superfície dos Pa's",
           subtitle = "Matrizes de Espaços Discretos de 8 x 8 até 150 x 150")+
   theme(plot.title = element_text(size=12),
         plot.subtitle = element_text(size=10)) +
-  xlab(expression(Espaço["(x)"])) +
-  ylab(expression(Espaço["(y)"])) +
+  xlab(expression(M["( i )"])) +
+  ylab(expression(M["( j )"])) +
   guides(fill=guide_legend(title="Pa's")) +
   coord_cartesian(xlim = c(8, 150), ylim = c(8, 150), expand = FALSE)+
   scale_y_continuous(breaks = c(8,seq(15,150, 15)))+
   scale_x_continuous(breaks = c(8,seq(15,150, 15)))
 
 # ------------------------------------------------------------------------
-
 
 # Adiciona cores
 coul <- colorRampPalette(coul)(9)
@@ -214,12 +213,12 @@ coul <- colorRampPalette(coul)(9)
 ggplot(performance, aes(intervalos_x, intervalos_y, z = tempo))+
   geom_contour_filled()+
   scale_fill_manual(values = coul)+
-  ggtitle("Mapa de Superficie dos Tempos Computacionais",
+  ggtitle("Mapa de Superfície dos Tempos Computacionais",
           subtitle = "Matrizes de Espaços Discretos de 8 x 8 até 150 x 150")+
   theme(plot.title = element_text(size=12),
         plot.subtitle = element_text(size=10)) +
-  xlab(expression(Espaço["(x)"])) +
-  ylab(expression(Espaço["(y)"])) +
+  xlab(expression(M["( i )"])) +
+  ylab(expression(M["( j )"])) +
   guides(fill=guide_legend(title="Tempo(s)")) +
   coord_cartesian(xlim = c(8, 150), ylim = c(8, 150), expand = FALSE)+
   scale_y_continuous(breaks = c(8,seq(15,150, 15)))+
