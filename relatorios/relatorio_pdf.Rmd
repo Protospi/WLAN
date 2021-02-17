@@ -1,31 +1,28 @@
 ---
-title: "Trabalho Computacional - Teoria da Decisão"
+title: "Trabalho Computacional - Teoria da Decisão - UFMG"
 author: "Pedro Loes"
 date: "14/02/2021"
 output: pdf_document
-header-includes:
-    - \usepackage{sectsty}
-    - \allsectionsfont{\color{red}}
 ---
 
 
-## Abstract
+## Resumo
 
-* This article comprises an applied problem of the Decision Theory course from the department of electrical engineering of UFMG taught by Professor Lucas Batista. The objective of this work is to apply the optmization and decision techniques taught throughout the semester. The proposed problem aims to minimize the number of access points routers to supply the Mbps consumption demanded by clients in a controlled environment. Also meeting pre-established optimization restrictions .
+* Este artigo apresenta uma solução para um problema aplicado do curso de _Teoria da Decisão_ do departamento de _Engenharia de Sistemas_ da __UFMG__ ministrado pelo professor _Lucas Batista_. O objetivo deste trabalho foi aplicar as técnicas de otimização e teoria da decisão lecionadas ao longo do semestre. O desenvolvimento compreende a exploração de __mínimos locais__ e __mínimos globais__. A conclusão visou otimizar o número de roteadores de pontos de acesso para suprir os consumos de banda demandados pelos clientes, atendendo à restrições pré-estabelecidas. Finalmente na etapa otimizador em produção foi criado um aplicativo para generalizar o uso do algoritimo em problemas semelhantes.
 
 ## Introdução
 
-*  O problema foi modelado no software R com implementação da função objetivo em C++ .
-*  Diferentes espaços de busca foram considerados com o intuito de descobrir a partir de qual densidade de espaço de busca discretizado o algoritmo convergiria para a solução de mínimo global ótima .
+*  O problema foi modelado no software __R__ com implementação da função objetivo em __C++__ .
+*  Diferentes espaços de busca foram considerados com o intuito de descobrir a partir de qual densidade de espaço de busca discretizado o algoritmo convergiria para a solução de mínimo global ótima.
 
 ## Especificações do Problema
 
-* Deseja-se instalar uma rede WLAN do tipo N 2D para atendimento de um centro de convenções com 800 × 800 metros. Para planejamento dessa rede foram estimados 500 pontos de demanda, com suas respectivas posições geográficas e consumos de largura de banda. O arquivo clientes.csv contém:
-  * Coordenada x do cliente em metros.
-  * Coordenada y do cliente em metros.
-  * Consumo de banda do cliente em Mbps.
+* Deseja-se instalar uma rede __WLAN__ do tipo __N 2D__ para atendimento de um centro de convenções com __800 × 800 metros__. Para planejamento dessa rede foram estimados __500__ pontos de demanda, com suas respectivas posições geográficas e consumos de largura de banda. O arquivo clientes.csv contém:
+  * Coordenada __x__ do cliente em metros.
+  * Coordenada __y__ do cliente em metros.
+  * Consumo de banda do cliente em __Mbps__.
   
-* Amostra das 10 primeiras observações:
+* Amostra das __10__ primeiras observações:
   
 ```{r warning=F, message=F, error=F, echo=F}
 
@@ -48,19 +45,19 @@ kable(head(wlan,10))
 ```
 
 * Variáveis de Decisão:
-  + Coordenadas dos pontos a serem instalados na área de 800 x 800 metros.
+  + Coordenadas dos pontos a serem instalados na área de __800 x 800 metros__.
   + Ponto de Acesso que será responsável pelo atendimento de cada cliente.
   
 * Restrições:
-  + Ao menos 95% dos pontos de demanda devem ter suas demandas integralmente atendidas.
-  + Cada ponto de acesso a ser instalado tem capacidade de 150Mbps, que não pode ser excedida.
-  + Um cliente pode ser atendido por um PA se a distância entre ambos é inferior a 85 metros.
-  + Cada cliente só pode ser atendido por um único PA.
-  + Devido a restrições orcamentárias, podem ser instalados no máximo 100 PA's.
+  + Ao menos __95%__ dos pontos de demanda devem ter suas demandas integralmente atendidas.
+  + Cada ponto de acesso a ser instalado tem capacidade de __150Mbps__, que não pode ser excedida.
+  + Um cliente pode ser atendido por um __Pa__ se a distância entre ambos é inferior a __85 metros__.
+  + Cada cliente só pode ser atendido por um único __Pa__.
+  + Devido a restrições orçamentárias, podem ser instalados no máximo __100 Pa's__.
   
 * Simplificações:
   + Os pontos de demanda e seus consumos de banda são estáticos.
-  + O efeito de obstáculos no ambiente são desprezados.
+  + O efeito de obstáculos no ambiente foram desprezados.
   + Um ponto de acesso não causa interferência em outros.
   
 ## Modelagem
@@ -96,9 +93,12 @@ kable(head(wlan,10))
 ## Análise Exploratória
 
 
-*  Para ilustrar uma visão inicial da distribuição dos clientes no espaço de 800 x 800 foi elaborado um gráfico de dispersão 2d com os dados da localização (x, y) dos pontos de demanda .
-*  O parâmetro alpha de transparência foi alterado para 0.5 com o intuito de eliminar o problema da sobreposição de Pd's e facilitar a compreesão da densidade destes pontos .
-*  A dimensão de cor foi adicionada considerando o gradiente das cores preta até azul para o consumo de largura de banda requisitada em Mbps por cada cliente.
+*  Para ilustrar uma visão inicial da distribuição dos clientes no espaço de 800 x 800 foi elaborado um gráfico de dispersão 2d com os dados da localização __(x, y)__ dos pontos de demanda.
+
+*  O parâmetro __alpha__ de transparência foi alterado para __0.5__ com o intuito de eliminar o problema da sobreposição de __Pd's__ e facilitar a compreensão da densidade destes pontos.
+
+*  A dimensão de cor foi adicionada considerando o gradiente das cores preta até azul para o consumo de largura de banda requisitada em __Mbps__ por cada cliente.
+
 
 
 ```{r warning=F, message=F, error=F, echo=F, fig.height=8 , fig.width=9, fig.align="center"}
@@ -112,41 +112,40 @@ wlan %>%
 
 ```
 
-*  Existem 2 grandes clusters na dispersão da localização dos clientes em torno dos pontos (200, 200) e (600, 600). Os demais pontos apresentam distribuição esparsa na área de 800 x 800.
+*  Existem __2__ grandes clusters na dispersão da localização dos clientes em torno dos pontos __(200, 200)__ e __(600, 600)__. Os demais pontos apresentam distribuição esparsa na área de __800 x 800__ metros.
 
-*  Na diagonal que vai de (0,0) até (800,800) os pontos de demanda são menos espalhados enquanto que na diagonal (0,800) até (800,0) os pontos estão mais dispersos.
+*  Na diagonal que vai de __(0,0)__ até __(800,800)__ os pontos de demanda são menos espalhados mas na diagonal __(0,800)__ até __(800,0)__ os pontos estão mais dispersos.
 
-*  Parece não existir padrão visual para a distribuição das demandas de Mbps.
-
+*  Parece não existir padrão visual para a distribuição das demandas de banda em __Mbps__.
 
 ## Espaços de Busca 
 
-*  Se considerada uma escala continua, a área de 800 x 800 metros possuí infinitas coordenadas de possíveis localizações para os pontos de acesso.
+*  Se considerada uma escala continua, a área de __800 x 800__ metros possuí infinitas coordenadas de possíveis localizações para os pontos de acesso.
 
-*  A construção de espaços de busca considerou espaços discretizados na forma de matrizes do tipo $M_{(i,j)}$ com $i = \{8, 9, ..., 150\}$ e $j = \{8, 9, ..., 150\}$. A posição `i` representa a quantidade de posições igualmente espaçadas no eixo x e da mesma forma, a posição `j` no eixo y.
+*  A construção de espaços de busca considerou espaços discretizados na forma de matrizes do tipo $\boldsymbol M_{ \boldsymbol ( \boldsymbol i, \boldsymbol j \boldsymbol )}$ com __i = {8, 9, ..., 150}__ e __j = {8, 9, ..., 150}__. A posição __i__ representa a quantidade de posições igualmente espaçadas no eixo __x__ e da mesma forma, a posição __j__ no eixo __y__.
 
 
 ![](../imagens/espacos_discretos_irregulares.png){width=70%, height=100%}
 
-*  O 1º gráfico no canto superior esquerdo ilustra a discretização da área de 800 x 800 em 8 posições igualmente espaçadas para o eixo x e y totalizando 64 possíveis localizações para os pontos de acesso.
+*  O __1º__ gráfico no canto __superior esquerdo__ ilustra a área discreta de __800 x 800__ em __8__ posições igualmente espaçadas para o eixo __x__ e __y__ totalizando __64__ possíveis localizações para os pontos de acesso.
 
-*  Os gráficos fora da diagonal principal ilustram alguns dos espaços discretos irregulares arbitrariamente escolhidos, ou seja, o número de posições diferente para os eixos x e y.
+*  Os gráficos fora da diagonal principal ilustram alguns dos espaços discretos irregulares arbitrariamente escolhidos, ou seja, o número de posições diferente para os eixos __x__ e __y__.
 
-*  O último gráfico no canto inferior direito ilustra a discretização da área de 800 x 800 em 150 posições igualmente espaçadas para o eixo x e y totalizando 22500 possíveis localizações para os pontos de acesso.
+*  O último gráfico no canto inferior direito ilustra a área discreta de __800 x 800__ em __150__ posições igualmente espaçadas para o eixo __x__ e __y__ totalizando __22500__ possíveis localizações para os pontos de acesso.
 
-* [\textcolor{green}{LINK da Apresentação em Slides: Como Funciona o Algoritmo}](https://rpubs.com/Drope/algoritmo)
+* [\textcolor{blue}{LINK da Apresentação em Slides: Como Funciona o Algoritmo}](https://rpubs.com/Drope/algoritmo)
 
 
 ## Prototipagem do Algoritmo 
 
 * Testes exploratórios:
-  + Discretizações menos granulares que $M_{(8,8)}$ não apresentam solução. 
-  + Discretizações mais granulares que $M_{(150,150)}$ apresentam convergência estável. 
-  + O custo computacional para executar o algoritmo em `R` foi na unidade de dias.
+  + Espaços discretos menos granulares que $\boldsymbol M_{\boldsymbol ( \boldsymbol 8, \boldsymbol 8 \boldsymbol )}$ não apresentam solução. 
+  + Espaços discretos mais granulares que $\boldsymbol M_{ \boldsymbol ( \boldsymbol 1 \boldsymbol 5 \boldsymbol 0, \boldsymbol 1 \boldsymbol 5 \boldsymbol 0 \boldsymbol )}$ apresentam convergência estável. 
+  + O custo computacional para executar o algoritmo em __R__ foi na unidade de __dias__.
   
-* Os laços para inspecionar o melhor posicionamento dos pontos de acesso em diferentes espaços de busca foram prototipados em `C++`.
+* Os laços para inspecionar o melhor posicionamento dos pontos de acesso em cada espaços de busca foram prototipados em __C++__.
 
-* A importação dos dados, a declaração de objetos e a construção dos espaços de busca foram prototipados no ambiente `R`.
+* A importação dos dados, a declaração de objetos e a construção dos espaços de busca foram prototipados no ambiente __R__.
 
 ### Prototipagem do modulo Rastreador em C++
 
@@ -191,15 +190,14 @@ List rastreia(int intervalo_x, int intervalo_y, DoubleVector wlanx,
   
 ```
 
-* A inspeção das matrizes de busca de espaços discretos quadrados e não quadrados entre $M_{(8,8)}$ e $M_{(150,150)}$, bem como a contagem de pontos de demanda dentro do raio de cobertura de um ponto de acesso foram prototipadas com o modulo rastreador no ambiente C++. Esse modulo contêm as seguintes funções:
-  + `enquadra` eleva um número ao quadrado.
-  + `conta_pontos` conta o número de pontos dentro do raio de cobertura de um ponto de acesso.
-  + `rastreia` inspeciona as melhores coordenadas para cada ponto de acesso dado um espaço discreto.
+* A inspeção das matrizes de busca de espaços discretos quadrados e não quadrados entre $\boldsymbol M_{\boldsymbol ( \boldsymbol 8 \boldsymbol , \boldsymbol 8)}$ e $\boldsymbol M_{ \boldsymbol ( \boldsymbol 1 \boldsymbol 5 \boldsymbol 0 \boldsymbol , \boldsymbol 1 \boldsymbol 5 \boldsymbol 0 \boldsymbol )}$, bem como a contagem de pontos de demanda dentro do raio de cobertura de um ponto de acesso foram prototipadas com o modulo rastreador no ambiente __C++__. Esse modulo contêm as seguintes funções:
+  + __enquadra__ eleva um número ao quadrado.
+  + __conta_pontos__ conta o número de pontos dentro do raio de cobertura de um ponto de acesso.
+  + __rastreia__ inspeciona as melhores coordenadas para cada ponto de acesso dado um espaço discreto.
+
   
 
 ### Prototipagem dos Espaços de Busca em R
-
-*  Para leitura dos dados e laço para combinação de espaços foram utilizadas as facilidades dos ambiente R em operar com data frames e gerar vetores de sequências. 
 
 ```{r eval = F}
 # Declara objetos e carrega modulo rastreador.cpp 
@@ -240,56 +238,58 @@ for(intervalo_x in seq(8, 150, by = 1)){
 }
 ```
 
-* A função `rastreia` foi utilizada no ambiente `R` por meio do pacote `Rcpp` que carrega o modulo `rastreador.cpp` e constrói a conexão entre os dois ambientes. 
+*  Para leitura dos dados e laço para combinação de espaços foram utilizadas as facilidades do ambiente __R__ em operar com data frames e gerar vetores de sequências. 
+
+* A função __rastreia__ foi utilizada no ambiente __R__ por meio do pacote __Rcpp__ que carrega o modulo __rastreador.cpp__ e constrói a conexão entre os dois ambientes.
 
 
 ## Convergência
 
-*  O algoritmo completo utlizado para convergência considerou as combinações de espaços de busca de $M_{8,8}$ até $M_{150,150}$ contabilizando o mínimo de 64 o máximo de 22500 coordenadas para possíveis localizações dos pontos de acesso .
+*  O algoritmo completo utilizado para convergência considerou as combinações de espaços de busca de $\boldsymbol M_{\boldsymbol ( \boldsymbol 8, \boldsymbol 8 \boldsymbol ) }$ até $\boldsymbol M_{ \boldsymbol ( \boldsymbol 1 \boldsymbol 5 \boldsymbol 0 \boldsymbol , \boldsymbol 1 \boldsymbol 5 \boldsymbol 0 \boldsymbol )}$ contabilizando o mínimo de __64__ o máximo de __22500__ coordenadas para possíveis localizações dos pontos de acesso.
 
-*  O mapa de superfície tridimensional foi construído para ilustrar as regiões de inspeção do algoritmo. O gradiente das cores azul(máximo) e vermelho(mínimo) foi utilizado como a terceira dimensão do gráfico para ilustrar o número de pontos de acesso necessários para atingir um mínimo local ou global em cada combinação de discretização do espaço.
+*  O mapa de superfície tridimensional foi construído para ilustrar as regiões de inspeção do algoritmo. O gradiente das cores __azul(máximo)__ e __vermelho(mínimo)__ foi utilizado como a terceira dimensão do gráfico para ilustrar o número de pontos de acesso necessários para atingir um mínimo local ou global em cada combinação de espaços discretos.
 
 
 ![](../imagens/mapa_superficie_pas.png){width=100%, height=100%}
 
 
-*  O ponto na coordenada i = 8 do eixo $M_{(i)}$ e j = 8 do eixo $M_{(j)}$, corresponde a inspeção do espaço de busca $M_{(8,8)}$ que atinge a pior solução ótima de mínimo local gastando 20 Pa's.
+*  O ponto na coordenada __i = 8__ do eixo $\boldsymbol M_{ \boldsymbol ( \boldsymbol i \boldsymbol )}$ e __j = 8__ do eixo $\boldsymbol M_{ \boldsymbol ( \boldsymbol j \boldsymbol )}$, corresponde a inspeção do espaço de busca $\boldsymbol M_{ \boldsymbol ( \boldsymbol 8 \boldsymbol , \boldsymbol 8)}$ que atinge a pior solução ótima de mínimo local gastando __20 Pa's__.
 
-*  Entre $M_{(8,8)}$ e $M_{(30,30)}$ o algoritimo passa pelos mínimos locais de 20 até 13, em $M_{(27,43)}$ atinge pela primeira vez o mínimo global de 12 Pa's $M_{(90,75)}$ o algoritimo começa a estabilizar em 12 Pa's com a maioria dos epaços convergindo para 12 Pa's. 
+*  Entre $\boldsymbol M_{ \boldsymbol ( \boldsymbol 8 \boldsymbol , \boldsymbol 8 \boldsymbol )}$ e $\boldsymbol M_{ \boldsymbol ( \boldsymbol 3 \boldsymbol 0 \boldsymbol , \boldsymbol 3 \boldsymbol 0 \boldsymbol )}$ o algoritmo passa pelos mínimos locais de __20__ até __13 Pa's__, em $\boldsymbol M_{\boldsymbol ( \boldsymbol 2 \boldsymbol 7 \boldsymbol , \boldsymbol 4 \boldsymbol 3 \boldsymbol )}$ atinge pela primeira vez o mínimo global de __12 Pa's__ e em $\boldsymbol M_{ \boldsymbol ( \boldsymbol 9 \boldsymbol 0 \boldsymbol , \boldsymbol 7 \boldsymbol 5 \boldsymbol )}$ o algoritmo começa a estabilizar em __12 Pa's__ com a maioria dos espaços convergindo para __12 Pa's__. 
 
-*  O algoritmo estabiliza em 12 Pa´s para espaços discretos mais granularizados que $M_{(110,110)}$ indicando convergência porque até $M_{(150,150)}$ o número de Pa's permanece o mesmo. 
-
+*  O algoritmo estabiliza em __12 Pa´s__ para espaços discretos mais granulares que $\boldsymbol M_{ \boldsymbol ( \boldsymbol 1 \boldsymbol 1 \boldsymbol 0 \boldsymbol , \boldsymbol 1 \boldsymbol 1 \boldsymbol 0 \boldsymbol )}$. Tal fato indicou convergência porque até $\boldsymbol M_{ \boldsymbol ( \boldsymbol 1 \boldsymbol 5 \boldsymbol 0 \boldsymbol , \boldsymbol 1 \boldsymbol 5 \boldsymbol 0 \boldsymbol )}$ o número de __Pa's__ permanece em __12__.
 
 ## Custo Computacional
 
-*  As performances de custo computacional do algoritimo nas combinações de espaços de busca foram comparadas utilizando a função `Sys.time()` do `R`. O hardware utilizado foi um processador Intel i7 com 16 GB RAM.
+*  As performances de custo computacional do algoritmo nas combinações de espaços de busca foram comparadas utilizando a função __Sys.time__ do __R__. O hardware utilizado foi um processador __Intel i7__ com __16 GB RAM__.
 
-*  O mapa de superfície tridimensional foi construído para ilustrar os tempos computacionais necessários para atingir um mínimo local ou global em cada combinação de discretização do espaço.
+*  O mapa de superfície tridimensional foi construído para ilustrar os tempos computacionais necessários para atingir um mínimo local ou global em cada combinação de espaços discretos.
+
 
 ![](../imagens/mapa_superficie_tempos_edit.png){width=100%, height=100%}
 
-*  O ponto na coordenada i = 8 do eixo $M_{(i)}$ e j = 8 do eixo $M_{(j)}$, corresponde a inspeção do espaço de busca $M_{(8,8)}$ que atinge a pior solução ótima de mínimo local com custo computacional de 0.02 segundos.
+*  O ponto na coordenada __i = 8__ do eixo $\boldsymbol M_{\boldsymbol ( \boldsymbol i \boldsymbol )}$ e __j = 8__ do eixo $\boldsymbol M_{ \boldsymbol ( \boldsymbol j \boldsymbol )}$, corresponde a inspeção do espaço de busca $\boldsymbol M_{ \boldsymbol ( \boldsymbol 8 \boldsymbol , \boldsymbol 8 \boldsymbol )}$ que atinge a pior solução ótima de mínimo local com custo computacional de __0.02 segundos__.
 
-*  É possível observar 9 intervalos bem distintos com alguns poucos pontos discrepantes dentro de cada curva de nível. Pode-se verificar que a curva vai se tornando mais linear a medida que se aproxima dos maiores tempos. Os custo variaram entre 0.02 e 0.48 segundos.
+*  É possível observar __9__ intervalos bem distintos com alguns poucos pontos discrepantes dentro de cada curva de nível. Pode-se verificar que a curva vai se tornando mais __linear__ a medida que se aproxima dos maiores tempos. Os custos variaram entre __0.02__ e __0.48 segundos__.
 
-*  O custo computacional total gasto para inspecionar todos os espaços discretos foi de aproximadamente de 41 minutos.
+*  O custo computacional total gasto para inspecionar todos os espaços discretos foi de aproximadamente de __41 minutos__.
 
 ## Mínimo Global 
 
-*  A solução ótima de mínimo global considerou o espaço de busca $M_{(110,110)}$ totalizando 12100 coordenadas de possíveis localizações para os pontos de acesso. Essa solução foi escolhida porque é um ponto de transição da convergência para estabilização do mínimo global.
+*  A solução ótima de mínimo global considerou o espaço de busca $\boldsymbol M_{ \boldsymbol ( \boldsymbol 1 \boldsymbol 1 \boldsymbol 0 \boldsymbol , \boldsymbol 1 \boldsymbol 1 \boldsymbol 0 \boldsymbol )}$ totalizando __12100__ coordenadas de possíveis localizações para os pontos de acesso. Essa solução foi escolhida porque é um ponto de transição da convergência para estabilização do mínimo global.
 
-*  O algoritmo varreu o espaço de busca de 12100 possíveis localizações para os pontos de acesso e recuperou as localização de 12 coordenadas que minimizam o número de pontos de acesso e satisfazem as condições do problema.
+*  O algoritmo inspecionou o espaço de busca de __12100__ possíveis localizações para os pontos de acesso e recuperou as localizações de __12__ coordenadas que minimizam o número de pontos de acesso e satisfazem as condições do problema.
 
 
 ![](../imagens/solucao_110x110.png){width=100%, height=100%}
 
-*  O algoritmo gastou 0.35 segundos para atingir o mínimo local de 12 Pa's. É possível observar que ocorre somente uma sobreposição de áreas de cobertura dos pontos de acesso no quadrante superior direito do gráfico .
+*  O algoritmo gastou __0.35 segundos__ para atingir o mínimo local de __12 Pa's__. É possível observar que ocorre somente uma sobreposição de áreas de cobertura dos pontos de acesso no quadrante superior direito do gráfico.
 
-*  Os 2 Pa's colocados nas coordenadas (192, 199) e (609, 587) estão cobrindo um grande número de Pd's podendo apresentar consumos de banda próximos da saturação. 
+*  Os __2 Pa's__ posicionados nas coordenadas __(192, 199)__ e __(609, 587)__ estão cobrindo um grande número de __Pd's__ podendo apresentar consumos de banda próximos da saturação.
 
 ## Tabela de Resultados
 
-*  Tabela de localização dos 12 Pa's na área de 800 x 800 com os respectivos consumos totais:}
+*  Tabela de localização dos __12 Pa's__ na área de __800 x 800__ com os respectivos consumos totais em __Mbps__:
 
 ```{r warning=F, message=F, error=F, echo=F}
 
@@ -304,16 +304,107 @@ kable(otimo)
 
 ```
 
-*  É possível observar que os dois clusters principais com um total de 146 Mbps de consumo estão muito próximos da saturação e talvez fosse adequado a colocação de mais 2 Pa's nessas regiões para garantir a integridade da entrega do sinal onde há maior concentração de pontos de demanda .
+*  É possível observar que os dois clusters principais com um total de __147__ e __148__ Mbps de consumo estão muito próximos da saturação e talvez fosse adequado a colocação de mais __2 Pa's__ nessas regiões para garantir a integridade da entrega do sinal onde há maior concentração de __pontos de demanda__.
 
-*  Outra possível solução seria o deslocamento de 2 Pa's com poucos pontos de consumo para as regiões de clusters de forma que a sobreposição parcial de 2 pontos de acesso sobre os clusters principais diminua o consumo dos Pa's no limiar da saturação e também cubra os pontos vizinhos aos clusters garantindo a cobertura dos mesmos 475 pontos de demanda sem aumentar o número de Pa's .
+*  Outra possível consideração seria a de que a diminuição da cobertura de cada __Pa__ de __95%__ ou __475 Pd's__ para __90%__ ou __450 Pd's__ reduziria o custo total de __Pa's__ em __33%__ ou seja de __12__ para __8 Pa's__.
+
+## Tomada de Decisão
+
+* Os resultados convenceram a unidade de decisão de que pequenas variações nas restrições do problema poderiam resultar em soluções consideravelmente distintas. Estes resultados explicavam que a flexibilização da quantidade mínima de __Pd's__ cobertos por todos os __Pa's__ e a quantidade máxima da demanda de banda também poderiam gerar resultados interessantes sem comprometer a qualidade do serviço de forma significativa. 
+
+* Na última reunião a __unidade de decisão__ se mostrou flexível em alterar algumas restrições como número de __Pd's__ cobertos e capacidade máxima em __Mbps__ de cada __Pa__. A unidade de decisão enviou um item da ata dessa reunião com os dizeres.
+
+* _A empresa precisa garantir a __qualidade do serviço__ e como os resultados mostraram que os __Pa's__ iriam operar em sua capacidade máxima, mas reduzir custo deve ser a prioridade na escolha da solução. Contudo é fato conhecido no registro histórico de operações da empresa que a diferença entre clientes registrados e presentes em conferências é geralmente maior que __5%__ e, portanto, o relaxamento desse critério também deve ser considerado prioridade. A terceira e última prioridade seria a variação de ambos os parâmetros. Solicitar ao departamento de __BI__ que gere diferentes cenários com base nessas diretrizes para orientar a unidade de decisão._  
+
+* Como resposta o departamento de departamento __BI__ implementou o método AHP _Analytic Hierarchy Process_ para auxiliar a __unidade de decisão__ na comparação. Para esta tarefa foram criados 3 robôs posicionadores que representam possíveis cenários a serem considerados pela __unidade de decisão__:
+  +  O Otimizador 1 Mbps reduz a capacidade máxima de largura de banda
+  +  O Otimizador 2 cobertura reduz o número total de __Pd's__ cobertos 
+  +  O Otimizador 3 Mbps e Cobertura altera ambos os critérios.
+ 
+  
+### Características dos Otimizadores Candidatos:
+
+* Para elaborar diferentes cenários foram considerados 3 otimizadores.
+  
+<center>  
+  
+![](../imagens/resumo_robos.png){ width=80% }
+
+</center>
+
+* As características desses otimizadores foram baseadas na performance do algoritmo para cada um desses otimizadores e as considerações da unidade de decisão. 
+
+### Diagrama AHP:
+
+* O digrama AHP foi construído para ilustrar a comparação par a par entre os otimizadores e os critérios da unidade de decisão.
+
+  
+![](../imagens/AHP.png){ width=80% }
+
+
+* As relações entre os otimizadores possuem estrutura hierárquica porque a ideia é que o AHP escolha não o melhor candidato, mas o que mais se adequa aos critérios da unidade de decisão.
+
+
+
+### Critério Máximo Mbps:
+
+  
+![](../imagens/criterio_Mbps.png){ width=65% }
+
+
+### Critério Cobertura:
+
+  
+![](../imagens/criterio_cobertura.png){ width=65% }
+
+
+### Critério Pa's:
+
+  
+![](../imagens/criterio_pas.png){ width=65% }
+
+
+### Critério Unidade de Decisão:
+
+  
+![](../imagens/criterio_geral.png){ width=65% }
+
+
+### Resultado do AHP:
+
+![](../imagens/resultados_AHP.png){ width=65% }
+
+* O resultado do AHP indicou que o otimizador 2 deve ser utilizado. Essa constatação parece coerente com as diretrizes da unidade de decisão, já que prioriza a entrega da qualidade evitando a redução do limite de __150 Mbps__ de cada __Pa__ reduzindo somente a cobertura de __Pd's__ para __450__ e atingindo o mínimo global de __8 Pa's__. Essa solução representa __60%__ do custo de __13 Pa's__ da solução __Otimizador 1__ e __80%__ do custo do __Otimizador 2__ com __10 Pa's__.
+
+## Otimizador em Produção
+
+* A unidade de decisão gostou da solução e optou pelo otimizador 2. Porém solicitou que o modelo do algoritmo otimizador fosse colocado em produção para operações futuras. A unidade de decisão também solicitou que fosse construída uma interface gráfica para utilização do modelo com botões para os parâmetros de Mbps, Cobertura e discretização do espaço de busca.
+
+* Para atender a demanda da unidade de decisão o departamento de BI da empresa desenvolveu o aplicativo otimizador.
+
+* Este programa iterativo é composto de uma barra lateral para carregar um arquivo __.csv__ com 3 colunas. A primeira e a segunda são referentes às coordenadas __(x,y)__ dos pontos de demanda e a terceira a consumo de banda de cada ponto de demanda em Mbps. O painel é composto de um gráfico que mostra o posicionamento dos __Pa's__ e uma tabela que mostra a localização exata de cada __Pa__, bem como a largura de banda que ele fornece. 
+
+* Esta ferramenta irá permitir que a unidade de decisão analise os cenários em tempo real otimizando o tempo gasto pela unidade de decisão para escolher o melhor cenário. Outra vantagem é que a unidade decisão poderá fazer ajustes finos no otimizador ao invés de escolher entre 3 opções já configuradas como na solução AHP.
+
+
+### Aplicativo
+
+  
+![](../imagens/posicionador_app.png){ width=100% }
+
+### Link do App Posicionador
+
+[\textcolor{blue}{https://loes.shinyapps.io/shiny/}](https://loes.shinyapps.io/shiny/)
 
 
 ## Referências
 
-*  Para desenvolver este trabalho foram utilizados os slides e videos fornecidos pelo Professor Lucas Batista do departamento de Engenharia Elétrica da UFMG .
+*  Para desenvolver este trabalho foram utilizados os slides e vídeos fornecidos pelo Professor Lucas Batista do departamento de _Engenharia de Sistemas_ da _UFMG_.
 
-*  Devido a questões legais de proteção aos direitos autorais e regras da UFMG, os slides e videos não puderam ser compartilhados .
+*  Devido a questões legais de proteção aos direitos autorais e regras da _UFMG_, os slides e vídeos não puderam ser compartilhados.
+
+* [https://en.wikipedia.org/wiki/Analytic_hierarchy_process_leader_example](https://en.wikipedia.org/wiki/Analytic_hierarchy_process_%E2%80%93_leader_example)
+
 
 
 

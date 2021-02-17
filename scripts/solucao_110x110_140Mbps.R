@@ -24,7 +24,7 @@ centro_y <- rep(seq(1, 800, length.out = 110), times = 110)
 
 # --------------------------------------------------------------------------
 
-# Implementacao rastreador em cpp
+# Implementacao de conta_pontos em cpp
 sourceCpp('scripts/rastreador.cpp')
 
 # --------------------------------------------------------------------------
@@ -71,7 +71,7 @@ while(contador < 475){
     pull(total)
   
   # Condicao verifica Mbps
-  if(megas < 150){
+  if(megas < 140){
     
     # Atualiza totais de Mbps
     Mbps <- c( Mbps, megas)
@@ -140,7 +140,7 @@ p <- p + geom_point(resultados,
                     size =  3,
                     alpha = 0.9) +
   ggtitle("Posição Ótima para os Pontos de Acesso",
-          subtitle = "Mínimo global de 12 Pa's no espaço discreto de 110 x 110.")+
+          subtitle = "Mínimo global de 14 Pa's no espaço discreto de 110 x 110, máximo de 140 Mbps por Pa.")+
   theme(plot.title = element_text(size=12),
         plot.subtitle = element_text(size=10))+
   scale_fill_identity(name = "Pa's", guide = 'legend', labels = c('')) 
