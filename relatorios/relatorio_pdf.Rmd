@@ -1,7 +1,7 @@
 ---
 title: "Trabalho Computacional - Teoria da Decisão - UFMG"
 author: "Pedro Loes"
-date: "14/02/2021"
+date: "27/02/2021"
 output: pdf_document
 ---
 
@@ -32,6 +32,8 @@ library(ggplot2)
 library(gridExtra)
 library(Rcpp)
 library(knitr)
+library(png)
+library(grid)
 
 # Importa dados
 wlan <- read_csv("https://raw.githubusercontent.com/Protospi/WLAN/main/dados/clientes.csv",
@@ -312,99 +314,174 @@ kable(otimo)
 
 * Os resultados convenceram a unidade de decisão de que pequenas variações nas restrições do problema poderiam resultar em soluções consideravelmente distintas. Estes resultados explicavam que a flexibilização da quantidade mínima de __Pd's__ cobertos por todos os __Pa's__ e a quantidade máxima da demanda de banda também poderiam gerar resultados interessantes sem comprometer a qualidade do serviço de forma significativa. 
 
-* Na última reunião a __unidade de decisão__ se mostrou flexível em alterar algumas restrições como número de __Pd's__ cobertos e capacidade máxima em __Mbps__ de cada __Pa__. A unidade de decisão enviou um item da ata dessa reunião com os dizeres.
+* Na última reunião a __unidade de decisão__ se mostrou flexível em alterar algumas restrições como número de __Pd's__ cobertos e a capacidade máxima em __Mbps__ de cada __Pa__. A unidade de decisão enviou um item da ata dessa reunião com os dizeres.
 
-* _A empresa precisa garantir a __qualidade do serviço__ e como os resultados mostraram que os __Pa's__ iriam operar em sua capacidade máxima, mas reduzir custo deve ser a prioridade na escolha da solução. Contudo é fato conhecido no registro histórico de operações da empresa que a diferença entre clientes registrados e presentes em conferências é geralmente maior que __5%__ e, portanto, o relaxamento desse critério também deve ser considerado prioridade. A terceira e última prioridade seria a variação de ambos os parâmetros. Solicitar ao departamento de __BI__ que gere diferentes cenários com base nessas diretrizes para orientar a unidade de decisão._  
+* _A empresa precisa garantir a __qualidade do serviço__ tendo em vista os resultados referentes aos __Pa's__ que iriam operar em sua capacidade máxima e isso deve ser considerado uma das prioridades. Mas __reduzir custo__ deve ser a prioridade principal na escolha da solução. Contudo é fato conhecido no registro histórico de operações da empresa que a __diferença__ entre clientes __registrados__ e __presentes__ em conferências é geralmente maior que __5%__ e, portanto, o relaxamento desse critério também deve ser considerado prioridade. A terceira e última prioridade seria a variação de __ambos os parâmetros__. Solicitar ao departamento de __BI__ que gere __3__ diferentes cenários com base nessas diretrizes para orientar a unidade de decisão._  
 
-* Como resposta o departamento de departamento __BI__ implementou o método AHP _Analytic Hierarchy Process_ para auxiliar a __unidade de decisão__ na comparação. Para esta tarefa foram criados 3 robôs posicionadores que representam possíveis cenários a serem considerados pela __unidade de decisão__:
-  +  O Otimizador 1 Mbps reduz a capacidade máxima de largura de banda
-  +  O Otimizador 2 cobertura reduz o número total de __Pd's__ cobertos 
-  +  O Otimizador 3 Mbps e Cobertura altera ambos os critérios.
+* Como resposta o departamento de departamento __BI__ implementou o método __AHP__ _Analytic Hierarchy Process_ para auxiliar a __unidade de decisão__ na comparação. Para esta tarefa foram criados 3 robôs posicionadores que representam possíveis cenários a serem considerados pela __unidade de decisão__:
+  +  O Otimizador 1 __Mbps__ reduz a capacidade máxima de largura de banda
+  +  O Otimizador 2 __Cobertura__ reduz o número total de __Pd's__ cobertos 
+  +  O Otimizador 3 __Mbps e Cobertura__ altera ambos os critérios.
  
   
 ### Características dos Otimizadores Candidatos:
 
 * Para elaborar diferentes cenários foram considerados 3 otimizadores.
   
-<center>  
   
-![](../imagens/resumo_robos.png){ width=80% }
+```{r fig.align='center', fig.width=8, fig.hight=10, echo = FALSE}
+
+# Le imagem
+img <- readPNG("../imagens/resumo_robos.png")
+
+# Imprime imagem
+grid.raster(img)
+
+```
+  
 
 </center>
 
-* As características desses otimizadores foram baseadas na performance do algoritmo para cada um desses otimizadores e as considerações da unidade de decisão. 
+* As características e prioridades desses otimizadores foram baseadas nos resultados do algoritmo para cada um destes cenários que privilegiaram __3__ diferentes combinações dos critérios. 
 
 ### Diagrama AHP:
 
 * O digrama AHP foi construído para ilustrar a comparação par a par entre os otimizadores e os critérios da unidade de decisão.
 
   
-![](../imagens/AHP.png){ width=80% }
+```{r fig.align='center', fig.width=12, fig.hight=14, echo = FALSE}
+
+# Le imagem
+img <- readPNG("../imagens/AHP.png")
+
+# Imprime imagem
+grid.raster(img)
+
+```
 
 
 * As relações entre os otimizadores possuem estrutura hierárquica porque a ideia é que o AHP escolha não o melhor candidato, mas o que mais se adequa aos critérios da unidade de decisão.
 
-
-
 ### Critério Máximo Mbps:
 
-  
-![](../imagens/criterio_Mbps.png){ width=65% }
+* O critério Máximo Mbps considerou a comparação dos 3 otimizadores em relação a variação no limite máximo da soma de Mbps fornecido por cada Pa. 
 
+
+```{r fig.align='center', fig.width=10, fig.hight=12, echo = FALSE}
+
+# Le imagem
+img <- readPNG("../imagens/criterio_Mbps.png")
+
+# Imprime imagem
+grid.raster(img)
+
+```
+
+* O otimizador __2__ tem prioridade de  __Máximo Mbps__ em relação aos otimizadores __1__ e __3__ e o otimizador __3__ tem prioridade em relação ao otimizador __1__.
 
 ### Critério Cobertura:
 
-  
-![](../imagens/criterio_cobertura.png){ width=65% }
+* O critério __Cobetura__ considerou a comparação dos 3 otimizadores em relação a variação no percentual de cobertura oferecido por todos os Pa's selecionados. 
 
+```{r fig.align='center', fig.width=10, fig.hight=12, echo = FALSE}
 
-### Critério Pa's:
+# Le imagem
+img <- readPNG("../imagens/criterio_cobertura.png")
 
-  
-![](../imagens/criterio_pas.png){ width=65% }
+# Imprime imagem
+grid.raster(img)
 
+```
+
+* O otimizador __1__ tem prioridade de  __Cobertura__ em relação aos otimizadores __2__ e __3__ e o otimizador __3__ tem prioridade em relação ao otimizador __2__.
+
+### Critério Número de Pa's:
+
+* O critério __Número de Pa's__ considerou a comparação dos 3 otimizadores em relação ao número de Pa's necessários para atender a demanda de todos os Pd's. 
+
+```{r fig.align='center', fig.width=10, fig.hight=12, echo = FALSE}
+
+# Le imagem
+img <- readPNG("../imagens/criterio_pas.png")
+
+# Imprime imagem
+grid.raster(img)
+
+```
+
+* O otimizador __2__ tem prioridade de __Número de Pa's__ em relação aos otimizadores __1__ e __3__ e o otimizador __3__ tem prioridade em relação ao otimizador __1__.
 
 ### Critério Unidade de Decisão:
 
-  
-![](../imagens/criterio_geral.png){ width=65% }
+* A __Unidade de Decisão__ considerou a comparação entre as preferências da unidade de decisão com respeito as critérios de __Máximo de Mbps__, __Cobertura__ e __Número de Pa's__. 
 
+```{r fig.align='center', fig.width=10, fig.hight=12, echo = FALSE}
+
+# Le imagem
+img <- readPNG("../imagens/criterio_geral.png")
+
+# Imprime imagem
+grid.raster(img)
+
+```
+
+* A unidade de decisão tem prioridade de __Número de Pa's__ em relação aos outros critérios.
 
 ### Resultado do AHP:
 
-![](../imagens/resultados_AHP.png){ width=65% }
+* Tabela de resultado das prioridades usando o método __AHP__.
 
-* O resultado do AHP indicou que o otimizador 2 deve ser utilizado. Essa constatação parece coerente com as diretrizes da unidade de decisão, já que prioriza a entrega da qualidade evitando a redução do limite de __150 Mbps__ de cada __Pa__ reduzindo somente a cobertura de __Pd's__ para __450__ e atingindo o mínimo global de __8 Pa's__. Essa solução representa __60%__ do custo de __13 Pa's__ da solução __Otimizador 1__ e __80%__ do custo do __Otimizador 2__ com __10 Pa's__.
+```{r fig.align='center', fig.width=10, fig.hight=12, echo = FALSE}
+
+# Le imagem
+img <- readPNG("../imagens/resultados_AHP.png")
+
+# Imprime imagem
+grid.raster(img)
+
+```
+
+
+* O resultado do __AHP__ indicou que o otimizador __2__ deve ser utilizado. Essa constatação parece coerente com as diretrizes da unidade de decisão, já que prioriza a entrega da qualidade evitando a redução do limite de __150 Mbps__ de cada __Pa__. A redução ocorre somente para a cobertura de __Pd's__ caindo de __475(90%)__ para __450(90%)__ e atingindo o mínimo global de __8 Pa's__. Essa solução representa __60%__ do custo de __13 Pa's__ da solução __Otimizador 1__ e __80%__ do custo do __Otimizador 2__ com __10 Pa's__.
 
 ## Otimizador em Produção
 
-* A unidade de decisão gostou da solução e optou pelo otimizador 2. Porém solicitou que o modelo do algoritmo otimizador fosse colocado em produção para operações futuras. A unidade de decisão também solicitou que fosse construída uma interface gráfica para utilização do modelo com botões para os parâmetros de Mbps, Cobertura e discretização do espaço de busca.
+* A unidade de decisão gostou da solução e optou pelo otimizador __2__. Porém solicitou que o modelo do algoritmo otimizador fosse colocado em produção para __operações futuras__. A unidade de decisão também solicitou que fosse construída uma __interface gráfica__ para utilização do modelo com __botões__ para os parâmetros de __Mbps__, __Cobertura __e __Granularidade do Espaço de Busca__.
 
-* Para atender a demanda da unidade de decisão o departamento de BI da empresa desenvolveu o aplicativo otimizador.
+* Para atender a demanda da unidade de decisão o departamento de BI da empresa desenvolveu o aplicativo __Posicionador__.
 
-* Este programa iterativo é composto de uma barra lateral para carregar um arquivo __.csv__ com 3 colunas. A primeira e a segunda são referentes às coordenadas __(x,y)__ dos pontos de demanda e a terceira a consumo de banda de cada ponto de demanda em Mbps. O painel é composto de um gráfico que mostra o posicionamento dos __Pa's__ e uma tabela que mostra a localização exata de cada __Pa__, bem como a largura de banda que ele fornece. 
+* Este __programa iterativo__ é composto de uma barra lateral para carregar um arquivo __.csv__ com 3 colunas. A primeira e a segunda são referentes às coordenadas __(x,y)__ dos pontos de demanda e a terceira ao consumo de banda de cada ponto de demanda em __Mbps__. O painel é composto de um gráfico que mostra o posicionamento dos __Pa's__ e uma tabela que mostra a localização exata de cada __Pa__, bem como a largura de banda que será demandada. 
 
-* Esta ferramenta irá permitir que a unidade de decisão analise os cenários em tempo real otimizando o tempo gasto pela unidade de decisão para escolher o melhor cenário. Outra vantagem é que a unidade decisão poderá fazer ajustes finos no otimizador ao invés de escolher entre 3 opções já configuradas como na solução AHP.
+* Esta ferramenta irá permitir que a __unidade de decisão__ analise os cenários em tempo real otimizando o __tempo humano__ gasto pela unidade de decisão para escolher o __melhor cenário__. Outra vantagem é que a unidade decisão poderá fazer __ajustes finos__ no otimizador ao invés de escolher entre opções pré-configuradas anteriormente.
 
 
-### Aplicativo
+### Imagem do Aplicativo
 
+
+```{r fig.align='right', fig.width=8, fig.hight=10, echo = FALSE}
+
+# Le imagem
+img <- readPNG("../imagens/posicionador_app.png")
+
+# Imprime imagem
+grid.raster(img)
+
+```
   
-![](../imagens/posicionador_app.png){ width=100% }
 
 ### Link do App Posicionador
 
-[\textcolor{blue}{https://loes.shinyapps.io/shiny/}](https://loes.shinyapps.io/shiny/)
+[\textcolor{blue}{https://loes.shinyapps.io/shiny}](https://loes.shinyapps.io/shiny/)
 
 
 ## Referências
 
-*  Para desenvolver este trabalho foram utilizados os slides e vídeos fornecidos pelo Professor Lucas Batista do departamento de _Engenharia de Sistemas_ da _UFMG_.
-
-*  Devido a questões legais de proteção aos direitos autorais e regras da _UFMG_, os slides e vídeos não puderam ser compartilhados.
-
-* [https://en.wikipedia.org/wiki/Analytic_hierarchy_process_leader_example](https://en.wikipedia.org/wiki/Analytic_hierarchy_process_%E2%80%93_leader_example)
+* [\textcolor{blue}{Projeto WLAN github}](https://github.com/Protospi/WLAN)
 
 
+* [\textcolor{blue}{Processo Analítico Hierárquico Wikipedia}](https://en.wikipedia.org/wiki/Analytic_hierarchy_process_%E2%80%93_leader_example)
+
+
+*  Slides e vídeos fornecidos pelo Professor Lucas Batista do departamento de _Engenharia de Sistemas_ da _UFMG_. Devido a questões legais de proteção aos direitos autorais e regras da _UFMG_, os slides e vídeos não puderam ser compartilhados.
 
 
