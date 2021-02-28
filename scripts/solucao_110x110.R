@@ -131,18 +131,22 @@ colunas <- c("x", "y")
 p <- ggplot()+
   geom_point(aes(x = x, y = y, color = Mbps),
              data = wlan_completa,
-             alpha = 0.8, size = 3) 
+             alpha = 0.8, size = 5) 
 
 # Desenha Pa's vermelhos
 p <- p + geom_point(resultados,
                     mapping =  aes(x = x, y = y, fill = "red"),
                     color = "red",
-                    size =  3,
+                    size =  6,
                     alpha = 0.9) +
-  ggtitle("Posição Ótima para os Pontos de Acesso",
-          subtitle = "Mínimo global de 12 Pa's no espaço discreto de 110 x 110.")+
-  theme(plot.title = element_text(size=12),
-        plot.subtitle = element_text(size=10))+
+  ggtitle("Mínimo global")+
+  theme(plot.title = element_text(size=27, face="bold", hjust = 0.5),
+        axis.text.x = element_text(face="bold", size=20),
+        axis.text.y = element_text(face="bold", size=20,
+                                   margin = margin(t = 0, r = 0, b = 0, l = 7)),
+        text = element_text(face="bold", size=21),
+        axis.title.x = element_text(size=26, face="bold"),
+        axis.title.y = element_text(size=26, face="bold"))+
   scale_fill_identity(name = "Pa's", guide = 'legend', labels = c('')) 
 
 # Laco para construcao de variaveis 
@@ -168,7 +172,7 @@ for(i in vencedores){
                                    y = y),
                      data = df,
                      color = "orange",
-                     size = 2.5,
+                     size = 5,
                      alpha = 0.1)
   
 }
@@ -202,7 +206,7 @@ for(i in vencedores){
                                    y = y),
                      data = df,
                      color = "orange",
-                     size = 1.7,
+                     size = 2.5,
                      alpha = 0.15)
   
 }
@@ -235,7 +239,7 @@ for(i in vencedores){
                                    y = y),
                      data = df,
                      color = "orange",
-                     size = 1,
+                     size = 1.5,
                      alpha = 0.4)
   
 }
@@ -269,7 +273,7 @@ for(i in vencedores){
                                    y = y),
                      data = df,
                      color = "orange",
-                     size = 0.7,
+                     size = 1,
                      alpha = 0.7)
   
 }
@@ -277,7 +281,7 @@ for(i in vencedores){
 # --------------------------------------------------------------------------
 
 # Imprime grafico
-p + theme_gray()
+p
 
 # --------------------------------------------------------------------------
 

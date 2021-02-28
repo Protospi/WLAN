@@ -101,18 +101,16 @@ kable(head(wlan,10))
 
 *  A dimensão de cor foi adicionada considerando o gradiente das cores preta até azul para o consumo de largura de banda requisitada em __Mbps__ por cada cliente.
 
+```{r fig.align='center', echo = FALSE, out.width="100%"}
 
+# Le imagem
+img <- readPNG("../imagens/dispersao.png")
 
-```{r warning=F, message=F, error=F, echo=F, fig.height=8 , fig.width=9, fig.align="center"}
-
-# Desenha posicao dos pontos de demanda
-wlan %>% 
-  ggplot(aes(x = x, y = y, color = Mbps))+
-    geom_point(alpha = 0.5, size = 3)+
-    ggtitle("Gráfico de Dispersão dos Pontos de Demanda",
-            subtitle = "Localização dos clientes e seus respectivos consumos em Mbps")
+# Imprime imagem
+grid.raster(img)
 
 ```
+
 
 *  Existem __2__ grandes clusters na dispersão da localização dos clientes em torno dos pontos __(200, 200)__ e __(600, 600)__. Os demais pontos apresentam distribuição esparsa na área de __800 x 800__ metros.
 
@@ -126,8 +124,16 @@ wlan %>%
 
 *  A construção de espaços de busca considerou espaços discretizados na forma de matrizes do tipo $\boldsymbol M_{ \boldsymbol ( \boldsymbol i, \boldsymbol j \boldsymbol )}$ com __i = {8, 9, ..., 150}__ e __j = {8, 9, ..., 150}__. A posição __i__ representa a quantidade de posições igualmente espaçadas no eixo __x__ e da mesma forma, a posição __j__ no eixo __y__.
 
+```{r fig.align='center', echo = FALSE, out.width="100%"}
 
-![](../imagens/espacos_discretos_8x8_150x150.png){width=80%, height=100%}
+# Le imagem
+img <- readPNG("../imagens/espacos_discretos_8x8_150x150.png")
+
+# Imprime imagem
+grid.raster(img)
+
+```
+
 
 *  O __1º__ gráfico no canto __superior esquerdo__ ilustra a área discreta de __800 x 800__ em __8__ posições igualmente espaçadas para o eixo __x__ e __y__ totalizando __64__ possíveis localizações para os pontos de acesso.
 
@@ -136,8 +142,6 @@ wlan %>%
 *  Os gráficos __na diagonal principal__ ilustram alguns dos espaços discretos regulares, ou seja, com a mesma escala de números discretos para os eixos __x__ e __y__. Por serem igualmente espaçados, apresentam o mesmo número de possíveis posições para os eixos __x__ e __y__.
 
 *  O __último gráfico__ no canto inferior direito ilustra a área discreta de __800 x 800__ em __150__ posições igualmente espaçadas para o eixo __x__ e __y__ totalizando __22500__ possíveis localizações para os pontos de acesso.
-
-* [\textcolor{blue}{LINK da Apresentação em Slides: Como Funciona o Algoritmo}](https://rpubs.com/Drope/algoritmo)
 
 
 ## Prototipagem do Algoritmo 
@@ -163,7 +167,8 @@ double enquadra(double x){
 
 // Função para contar o nº de Pd's cobertos pelo raio de um Pa
 std::vector<double> conta_pontos(x, y, wlanx, wlany, indice) {
-  int n = wlany.size(); double soma; double raio = square(85); indices(0);
+  int n = wlany.size(); double soma;
+  double raio = square(85); indices(0);
   for(int i = 0; i < n; i++) {
     soma = enquadra(wlanx[i] - x) + square(wlany[i] - y);
     if( soma <= raio) {
@@ -254,7 +259,16 @@ for(intervalo_x in seq(8, 150, by = 1)){
 *  O mapa de superfície tridimensional foi construído para ilustrar as regiões de inspeção do algoritmo. O gradiente das cores __azul(máximo)__ e __vermelho(mínimo)__ foi utilizado como a terceira dimensão do gráfico para ilustrar o número de pontos de acesso necessários para atingir um mínimo local ou global em cada combinação de espaços discretos.
 
 
-![](../imagens/mapa_superficie_pas.png){width=100%, height=100%}
+```{r fig.align='center', echo = FALSE, out.width="100%"}
+
+# Le imagem
+img <- readPNG("../imagens/mapa_superficie_pas2.png")
+
+# Imprime imagem
+grid.raster(img)
+
+```
+
 
 
 *  O ponto na coordenada __i = 8__ do eixo $\boldsymbol M_{ \boldsymbol ( \boldsymbol i \boldsymbol )}$ e __j = 8__ do eixo $\boldsymbol M_{ \boldsymbol ( \boldsymbol j \boldsymbol )}$, corresponde a inspeção do espaço de busca $\boldsymbol M_{ \boldsymbol ( \boldsymbol 8 \boldsymbol , \boldsymbol 8)}$ que atinge a pior solução ótima de mínimo local gastando __20 Pa's__.
@@ -269,8 +283,16 @@ for(intervalo_x in seq(8, 150, by = 1)){
 
 *  O mapa de superfície tridimensional foi construído para ilustrar os tempos computacionais necessários para atingir um mínimo local ou global em cada combinação de espaços discretos.
 
+```{r fig.align='center', echo = FALSE, out.width="100%"}
 
-![](../imagens/mapa_superficie_tempos_edit.png){width=100%, height=100%}
+# Le imagem
+img <- readPNG("../imagens/custo_computacional3.png")
+
+# Imprime imagem
+grid.raster(img)
+
+```
+
 
 *  O ponto na coordenada __i = 8__ do eixo $\boldsymbol M_{\boldsymbol ( \boldsymbol i \boldsymbol )}$ e __j = 8__ do eixo $\boldsymbol M_{ \boldsymbol ( \boldsymbol j \boldsymbol )}$, corresponde a inspeção do espaço de busca $\boldsymbol M_{ \boldsymbol ( \boldsymbol 8 \boldsymbol , \boldsymbol 8 \boldsymbol )}$ que atinge a pior solução ótima de mínimo local com custo computacional de __0.02 segundos__.
 
@@ -284,8 +306,17 @@ for(intervalo_x in seq(8, 150, by = 1)){
 
 *  O algoritmo inspecionou o espaço de busca de __12100__ possíveis localizações para os pontos de acesso e recuperou as localizações de __12__ coordenadas que minimizam o número de pontos de acesso e satisfazem as condições do problema.
 
+```{r fig.align='center', echo = FALSE, out.width="100%"}
 
-![](../imagens/solucao_110x110.png){width=100%, height=100%}
+# Le imagem
+img <- readPNG("../imagens/solucao_110x110_2.png")
+
+# Imprime imagem
+grid.raster(img)
+
+```
+
+
 
 *  O algoritmo gastou __0.35 segundos__ para atingir o mínimo local de __12 Pa's__. É possível observar que ocorre somente uma sobreposição de áreas de cobertura dos pontos de acesso no quadrante superior direito do gráfico.
 
@@ -314,13 +345,11 @@ kable(otimo)
 
 ## Tomada de Decisão
 
-* Os resultados convenceram a unidade de decisão de que pequenas variações nas restrições do problema poderiam resultar em soluções consideravelmente distintas. Estes resultados explicavam que a flexibilização da quantidade mínima de __Pd's__ cobertos por todos os __Pa's__ e a quantidade máxima da demanda de banda também poderiam gerar resultados interessantes sem comprometer a qualidade do serviço de forma significativa. 
+* Os resultados mostraram que pequenas variações nas restrições do problema poderiam resultar em soluções consideravelmente distintas. Estes resultados explicavam que a flexibilização da quantidade mínima de __Pd's__ cobertos por todos os __Pa's__ e a quantidade máxima da demanda de banda também poderiam gerar resultados interessantes sem comprometer a qualidade do serviço de forma significativa. 
 
-* Na última reunião a __unidade de decisão__ se mostrou flexível em alterar algumas restrições como número de __Pd's__ cobertos e a capacidade máxima em __Mbps__ de cada __Pa__. A unidade de decisão enviou um item da ata dessa reunião com os dizeres.
+* A __unidade de decisão__ se mostrou flexível em alterar algumas restrições como número de __Pd's__ cobertos e a capacidade máxima em __Mbps__ de cada __Pa__.
 
-* _A empresa precisa garantir a __qualidade do serviço__ tendo em vista os resultados referentes aos __Pa's__ que iriam operar em sua capacidade máxima e isso deve ser considerado uma das prioridades. Mas __reduzir custo__ deve ser a prioridade principal na escolha da solução. Contudo é fato conhecido no registro histórico de operações da empresa que a __diferença__ entre clientes __registrados__ e __presentes__ em conferências é geralmente maior que __5%__ e, portanto, o relaxamento desse critério também deve ser considerado prioridade. A terceira e última prioridade seria a variação de __ambos os parâmetros__. Solicitar ao departamento de __BI__ que gere __3__ diferentes cenários com base nessas diretrizes para orientar a unidade de decisão._  
-
-* Como resposta o departamento de departamento __BI__ implementou o método __AHP__ _Analytic Hierarchy Process_ para auxiliar a __unidade de decisão__ na comparação. Para esta tarefa foram criados 3 robôs posicionadores que representam possíveis cenários a serem considerados pela __unidade de decisão__:
+* Para orientar a tomada de decisão foram considerados 3 cenários otimizadores para implementação do AHP.  
   +  O Otimizador 1 __Mbps__ reduz a capacidade máxima de largura de banda
   +  O Otimizador 2 __Cobertura__ reduz o número total de __Pd's__ cobertos 
   +  O Otimizador 3 __Mbps e Cobertura__ altera ambos os critérios.
@@ -448,9 +477,7 @@ grid.raster(img)
 
 ## Otimizador em Produção
 
-* A unidade de decisão gostou da solução e optou pelo otimizador __2__. Porém solicitou que o modelo do algoritmo otimizador fosse colocado em produção para __operações futuras__. A unidade de decisão também solicitou que fosse construída uma __interface gráfica__ para utilização do modelo com __botões__ para os parâmetros de __Mbps__, __Cobertura __e __Granularidade do Espaço de Busca__.
-
-* Para atender a demanda da unidade de decisão o departamento de BI da empresa desenvolveu o aplicativo __Posicionador__.
+* Para atender a demanda da unidade de decisão a nivel de produção foi desenvolvido o aplicativo __Posicionador__.
 
 * Este __programa iterativo__ é composto de uma barra lateral para carregar um arquivo __.csv__ com 3 colunas. A primeira e a segunda são referentes às coordenadas __(x,y)__ dos pontos de demanda e a terceira ao consumo de banda de cada ponto de demanda em __Mbps__. O painel é composto de um gráfico que mostra o posicionamento dos __Pa's__ e uma tabela que mostra a localização exata de cada __Pa__, bem como a largura de banda que será demandada. 
 
@@ -470,11 +497,6 @@ grid.raster(img)
 
 ```
   
-
-### Link do App Posicionador
-
-[\textcolor{blue}{https://loes.shinyapps.io/shiny}](https://loes.shinyapps.io/shiny/)
-
 
 ## Referências
 

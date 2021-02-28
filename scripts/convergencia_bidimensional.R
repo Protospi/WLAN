@@ -45,11 +45,14 @@ for(i in  c(8, 80, 150)){
             panel.grid.minor = element_blank(),
             panel.border = element_blank(),
             panel.background = element_blank(),
-            plot.title = element_text(size=16),
-            axis.text.x = element_text(face="bold", size=10),
-            axis.text.y = element_text(face="bold", size=10),
-            text = element_text(face="bold", size=12))+
-      ggtitle(bquote(M[.(ids)] ~ "=" ~ .(pontos) ~ " Pontos"))
+            plot.title = element_text(face="bold", size=22),
+            axis.text.x = element_text(face="bold", size=17),
+            axis.text.y = element_text(face="bold", size=17,
+                                       margin = margin(t = 0, r = 0, b = 0, l = 5)),
+            text = element_text(face="bold", size=16),
+            axis.title.x = element_text(size=18, face="bold"),
+            axis.title.y = element_text(size=18, face="bold"))+
+      ggtitle(bquote(M[.(ids)]))
     
     # Atualiza indices graficos
     indice_grafico <- indice_grafico + 1
@@ -196,10 +199,13 @@ coul <- brewer.pal(8, "RdBu")
 ggplot(performance, aes(intervalos_x, intervalos_y, z = PA)) +
   geom_contour_filled(binwidth = 1) +
   scale_fill_manual(values = coul)+
-  ggtitle("Mapa de Superfície dos Mínimos Locais e Globais",
-          subtitle = "Nº mínimo de pontos de acesso para cada combinação dos espaços discretos de 8 x 8 até 150 x 150.")+
-  theme(plot.title = element_text(size=12),
-        plot.subtitle = element_text(size=10)) +
+  ggtitle("Mínimos Locais e Globais")+
+  theme(plot.title = element_text(size=27, face="bold", hjust = 0.5),
+        axis.text.x = element_text(face="bold", size=20),
+        axis.text.y = element_text(face="bold", size=20),
+        text = element_text(face="bold", size=21),
+        axis.title.x = element_text(size=26, face="bold"),
+        axis.title.y = element_text(size=26, face="bold")) +
   xlab(expression(M["( i )"])) +
   ylab(expression(M["( j )"])) +
   guides(fill=guide_legend(title="Pa's")) +
@@ -219,10 +225,13 @@ coul <- colorRampPalette(coul)(9)
 ggplot(performance, aes(intervalos_x, intervalos_y, z = tempo))+
   geom_contour_filled()+
   scale_fill_manual(values = coul)+
-  ggtitle("Mapa de Superfície dos Tempos Computacionais",
-          subtitle = "Tempo Computacional em segundos para cada combinação dos espaços discretos de 8 x 8 até 150 x 150.")+
-  theme(plot.title = element_text(size=12),
-        plot.subtitle = element_text(size=10)) +
+  ggtitle("Custo Computacional")+
+  theme(plot.title = element_text(size=27, face="bold", hjust = 0.5),
+        axis.text.x = element_text(face="bold", size=20),
+        axis.text.y = element_text(face="bold", size=20),
+        text = element_text(face="bold", size=21),
+        axis.title.x = element_text(size=26, face="bold"),
+        axis.title.y = element_text(size=26, face="bold")) +
   xlab(expression(M["( i )"])) +
   ylab(expression(M["( j )"])) +
   guides(fill=guide_legend(title="Tempo(s)")) +
