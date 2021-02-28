@@ -172,7 +172,7 @@ for(i in vencedores){
                                    y = y),
                      data = df,
                      color = "orange",
-                     size = 5,
+                     size = 4,
                      alpha = 0.1)
   
 }
@@ -206,7 +206,7 @@ for(i in vencedores){
                                    y = y),
                      data = df,
                      color = "orange",
-                     size = 2.5,
+                     size = 3,
                      alpha = 0.15)
   
 }
@@ -239,7 +239,7 @@ for(i in vencedores){
                                    y = y),
                      data = df,
                      color = "orange",
-                     size = 1.5,
+                     size = 2,
                      alpha = 0.4)
   
 }

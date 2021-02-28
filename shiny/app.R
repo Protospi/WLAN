@@ -254,7 +254,15 @@ server <- function(input, output) {
               geom_point(aes(x = x, y = y, color = Mbps),
                          data = wlan_completa,
                          alpha = 0.8,
-                         size = 3)
+                         size = 3)+
+              ggtitle("Pontos de Acesso")+
+              theme(plot.title = element_text(size=27, face="bold", hjust = 0.5),
+                    axis.text.x = element_text(face="bold", size=20),
+                    axis.text.y = element_text(face="bold", size=20,
+                                               margin = margin(t = 0, r = 0, b = 0, l = 7)),
+                    text = element_text(face="bold", size=21),
+                    axis.title.x = element_text(size=26, face="bold"),
+                    axis.title.y = element_text(size=26, face="bold"))
           
         } else {
       
@@ -280,8 +288,14 @@ server <- function(input, output) {
                                 color = "red",
                                 size =  4,
                                 alpha = 0.9) +
-              theme(plot.title = element_text(size=12),
-                    plot.subtitle = element_text(size=10))+
+              ggtitle("Mínimo Ótimo")+
+              theme(plot.title = element_text(size=27, face="bold", hjust = 0.5),
+                    axis.text.x = element_text(face="bold", size=20),
+                    axis.text.y = element_text(face="bold", size=20,
+                                               margin = margin(t = 0, r = 0, b = 0, l = 7)),
+                    text = element_text(face="bold", size=21),
+                    axis.title.x = element_text(size=26, face="bold"),
+                    axis.title.y = element_text(size=26, face="bold"))+
               scale_fill_identity(name = "Pa's", guide = 'legend', labels = c('')) 
             
             # Laco para construcao de variaveis 
@@ -404,7 +418,7 @@ server <- function(input, output) {
             }
             
             # Imprime grafico
-            p + theme_gray()
+            p 
             
         }
     
@@ -417,6 +431,7 @@ server <- function(input, output) {
      
      }, height = 700, width = 800)
    
+   # Declara evento reativo de tabela
    tab <- eventReactive(input$aciona,{
      
      # Declara tabela
@@ -434,6 +449,7 @@ server <- function(input, output) {
    # Renderiza grafico
    output$tabela <- renderTable({
      
+      # Desenha tabela
       tab()
      
    })   

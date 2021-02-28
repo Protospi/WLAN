@@ -8,16 +8,16 @@ output: pdf_document
 
 ## Resumo
 
-* Este artigo apresenta uma solução para um problema aplicado do curso de _Teoria da Decisão_ do departamento de _Engenharia de Sistemas_ da __UFMG__ ministrado pelo professor _Lucas Batista_. O objetivo deste trabalho foi aplicar as técnicas de otimização e teoria da decisão lecionadas ao longo do semestre. O desenvolvimento compreende a exploração de __mínimos locais__ e __mínimos globais__. A conclusão visou otimizar o número de roteadores de pontos de acesso para suprir os consumos de banda demandados pelos clientes, atendendo à restrições pré-estabelecidas. Finalmente na etapa otimizador em produção foi criado um aplicativo para generalizar o uso do algoritimo em problemas semelhantes.
+* _Este artigo apresenta uma solução para um problema aplicado do curso de _Teoria da Decisão_ do departamento de __Engenharia de Sistemas__ da __UFMG__ ministrado pelo professor _Lucas Batista_. O objetivo deste trabalho foi aplicar as técnicas de __otimização__ e __teoria da decisão__ lecionadas ao longo do semestre. O desenvolvimento compreende a exploração de __mínimos locais__ e __mínimos globais__. A conclusão visou __otimizar__ o número de __pontos de acesso__ para suprir os __consumos de banda__ demandados pelos clientes de uma conferência, atendendo à __restrições pré-estabelecidas__. Finalmente na etapa __otimizador em produção__ foi criado um aplicativo para generalizar o uso do algoritimo_.
 
 ## Introdução
 
 *  O problema foi modelado no software __R__ com implementação da função objetivo em __C++__ .
-*  Diferentes espaços de busca foram considerados com o intuito de descobrir a partir de qual densidade de espaço de busca discretizado o algoritmo convergiria para a solução de mínimo global ótima.
+*  Diferentes espaços de busca foram considerados com o intuito de descobrir a partir de qual densidade de espaço de busca __discretizado__ o algoritmo convergiria para a solução de __mínimo global ótima__.
 
 ## Especificações do Problema
 
-* Deseja-se instalar uma rede __WLAN__ do tipo __N 2D__ para atendimento de um centro de convenções com __800 × 800 metros__. Para planejamento dessa rede foram estimados __500__ pontos de demanda, com suas respectivas posições geográficas e consumos de largura de banda. O arquivo clientes.csv contém:
+* Deseja-se instalar uma rede __WLAN__ do tipo __N 2D__ para atendimento de um centro de convenções com __800 × 800 metros__. Para planejamento dessa rede foram estimados __500__ pontos de demanda, com suas respectivas __posições__ geográficas e __consumos__ de largura de __banda__. O arquivo __clientes.csv__ contém:
   * Coordenada __x__ do cliente em metros.
   * Coordenada __y__ do cliente em metros.
   * Consumo de banda do cliente em __Mbps__.
@@ -58,9 +58,9 @@ kable(head(wlan,10))
   + Devido a restrições orçamentárias, podem ser instalados no máximo __100 Pa's__.
   
 * Simplificações:
-  + Os pontos de demanda e seus consumos de banda são estáticos.
-  + O efeito de obstáculos no ambiente foram desprezados.
-  + Um ponto de acesso não causa interferência em outros.
+  + Os pontos de demanda e seus __consumos__ de banda são __estáticos__.
+  + O efeito de __obstáculos__ no ambiente foram __desprezados__.
+  + Um ponto de acesso __não__ causa __interferência__ em outros.
   
 ## Modelagem
 
@@ -360,7 +360,7 @@ kable(otimo)
 * Para elaborar diferentes cenários foram considerados 3 otimizadores.
   
   
-```{r fig.align='center', fig.width=8, fig.hight=10, echo = FALSE}
+```{r fig.align='center', fig.width=9, fig.hight=11, echo = FALSE}
 
 # Le imagem
 img <- readPNG("../imagens/resumo_robos.png")
@@ -380,7 +380,7 @@ grid.raster(img)
 * O digrama AHP foi construído para ilustrar a comparação par a par entre os otimizadores e os critérios da unidade de decisão.
 
   
-```{r fig.align='center', fig.width=12, fig.hight=14, echo = FALSE}
+```{r fig.align='center', fig.width=13, fig.hight=15, echo = FALSE}
 
 # Le imagem
 img <- readPNG("../imagens/AHP.png")
@@ -395,10 +395,9 @@ grid.raster(img)
 
 ### Critério Máximo Mbps:
 
-* O critério Máximo Mbps considerou a comparação dos 3 otimizadores em relação a variação no limite máximo da soma de Mbps fornecido por cada Pa. 
+* O critério __Máximo Mbps__ considerou a comparação entre os 3 otimizadores no que diz respeito à variação no limite máximo da soma de Mbps fornecido por cada Pa. A prioridade de cada otimizador considerou notas com base nas suas características. 
 
-
-```{r fig.align='center', fig.width=10, fig.hight=12, echo = FALSE}
+```{r fig.align='center', fig.width=11, fig.hight=13, echo = FALSE}
 
 # Le imagem
 img <- readPNG("../imagens/criterio_Mbps.png")
@@ -408,13 +407,13 @@ grid.raster(img)
 
 ```
 
-* O otimizador __2__ tem prioridade de  __Máximo Mbps__ em relação aos otimizadores __1__ e __3__ e o otimizador __3__ tem prioridade em relação ao otimizador __1__.
+* O otimizador __2__ tem prioridade de mais que o dobro de __Máximo Mbps__ em relação ao otimizador __1__ e mais que o triplo em relação ao otimizador __3__ e o otimizador __3__ tem prioridade de praticamente o dobro de __Máximo Mbps__ em relação ao otimizador __1__.
 
 ### Critério Cobertura:
 
 * O critério __Cobetura__ considerou a comparação dos 3 otimizadores em relação a variação no percentual de cobertura oferecido por todos os Pa's selecionados. 
 
-```{r fig.align='center', fig.width=10, fig.hight=12, echo = FALSE}
+```{r fig.align='center', fig.width=11, fig.hight=13, echo = FALSE}
 
 # Le imagem
 img <- readPNG("../imagens/criterio_cobertura.png")
@@ -430,7 +429,7 @@ grid.raster(img)
 
 * O critério __Número de Pa's__ considerou a comparação dos 3 otimizadores em relação ao número de Pa's necessários para atender a demanda de todos os Pd's. 
 
-```{r fig.align='center', fig.width=10, fig.hight=12, echo = FALSE}
+```{r fig.align='center', fig.width=11, fig.hight=13, echo = FALSE}
 
 # Le imagem
 img <- readPNG("../imagens/criterio_pas.png")
@@ -446,7 +445,7 @@ grid.raster(img)
 
 * A __Unidade de Decisão__ considerou a comparação entre as preferências da unidade de decisão com respeito as critérios de __Máximo de Mbps__, __Cobertura__ e __Número de Pa's__. 
 
-```{r fig.align='center', fig.width=10, fig.hight=12, echo = FALSE}
+```{r fig.align='center', fig.width=11, fig.hight=13, echo = FALSE}
 
 # Le imagem
 img <- readPNG("../imagens/criterio_geral.png")
@@ -462,7 +461,7 @@ grid.raster(img)
 
 * Tabela de resultado das prioridades usando o método __AHP__.
 
-```{r fig.align='center', fig.width=10, fig.hight=12, echo = FALSE}
+```{r fig.align='center', fig.width=11, fig.hight=13, echo = FALSE}
 
 # Le imagem
 img <- readPNG("../imagens/resultados_AHP.png")
@@ -481,16 +480,13 @@ grid.raster(img)
 
 * Este __programa iterativo__ é composto de uma barra lateral para carregar um arquivo __.csv__ com 3 colunas. A primeira e a segunda são referentes às coordenadas __(x,y)__ dos pontos de demanda e a terceira ao consumo de banda de cada ponto de demanda em __Mbps__. O painel é composto de um gráfico que mostra o posicionamento dos __Pa's__ e uma tabela que mostra a localização exata de cada __Pa__, bem como a largura de banda que será demandada. 
 
-* Esta ferramenta irá permitir que a __unidade de decisão__ analise os cenários em tempo real otimizando o __tempo humano__ gasto pela unidade de decisão para escolher o __melhor cenário__. Outra vantagem é que a unidade decisão poderá fazer __ajustes finos__ no otimizador ao invés de escolher entre opções pré-configuradas anteriormente.
+* Esta ferramenta irá permitir que a __unidade de decisão__ analise os cenários em tempo real otimizando o __tempo humano__ gasto pela unidade de decisão para escolher o __melhor cenário__. Outra vantagem é que a unidade decisão poderá fazer __ajustes finos__ no otimizador ao invés de escolher entre opções pré-configuradas.
 
 
-### Imagem do Aplicativo
-
-
-```{r fig.align='right', fig.width=8, fig.hight=10, echo = FALSE}
+```{r fig.align='right', fig.width=10, fig.hight=12, echo = FALSE}
 
 # Le imagem
-img <- readPNG("../imagens/posicionador_app.png")
+img <- readPNG("../imagens/posicionador_app2.png")
 
 # Imprime imagem
 grid.raster(img)
