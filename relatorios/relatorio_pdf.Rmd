@@ -127,13 +127,15 @@ wlan %>%
 *  A construção de espaços de busca considerou espaços discretizados na forma de matrizes do tipo $\boldsymbol M_{ \boldsymbol ( \boldsymbol i, \boldsymbol j \boldsymbol )}$ com __i = {8, 9, ..., 150}__ e __j = {8, 9, ..., 150}__. A posição __i__ representa a quantidade de posições igualmente espaçadas no eixo __x__ e da mesma forma, a posição __j__ no eixo __y__.
 
 
-![](../imagens/espacos_discretos_irregulares.png){width=70%, height=100%}
+![](../imagens/espacos_discretos_8x8_150x150.png){width=80%, height=100%}
 
 *  O __1º__ gráfico no canto __superior esquerdo__ ilustra a área discreta de __800 x 800__ em __8__ posições igualmente espaçadas para o eixo __x__ e __y__ totalizando __64__ possíveis localizações para os pontos de acesso.
 
-*  Os gráficos fora da diagonal principal ilustram alguns dos espaços discretos irregulares arbitrariamente escolhidos, ou seja, o número de posições diferente para os eixos __x__ e __y__.
+*  Os gráficos __fora da diagonal principal__ ilustram alguns dos espaços discretos irregulares arbitrariamente escolhidos, ou seja, com um número de possíveis posições diferente para os eixos __x__ e __y__.
 
-*  O último gráfico no canto inferior direito ilustra a área discreta de __800 x 800__ em __150__ posições igualmente espaçadas para o eixo __x__ e __y__ totalizando __22500__ possíveis localizações para os pontos de acesso.
+*  Os gráficos __na diagonal principal__ ilustram alguns dos espaços discretos regulares, ou seja, com a mesma escala de números discretos para os eixos __x__ e __y__. Por serem igualmente espaçados, apresentam o mesmo número de possíveis posições para os eixos __x__ e __y__.
+
+*  O __último gráfico__ no canto inferior direito ilustra a área discreta de __800 x 800__ em __150__ posições igualmente espaçadas para o eixo __x__ e __y__ totalizando __22500__ possíveis localizações para os pontos de acesso.
 
 * [\textcolor{blue}{LINK da Apresentação em Slides: Como Funciona o Algoritmo}](https://rpubs.com/Drope/algoritmo)
 
