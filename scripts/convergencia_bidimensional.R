@@ -18,10 +18,10 @@ p <- list()
 indice_grafico <- 1
 
 # Laco para discretizar x
-for(i in  c(8, 60, 120, 150)){
+for(i in  c(8, 80, 150)){
   
   # Laco para y discretizar y
-  for(j in   c(8, 60, 120, 150)){
+  for(j in   c(8, 80, 150)){
     
     # Declara grid de centro dos circulos
     centro_x <- rep(seq(0, 800, length.out = i ), each = j )  
@@ -45,8 +45,11 @@ for(i in  c(8, 60, 120, 150)){
             panel.grid.minor = element_blank(),
             panel.border = element_blank(),
             panel.background = element_blank(),
-            plot.title = element_text(size=10))+
-      ggtitle(bquote(M[.(ids)] ~ "  " ~ .(pontos) ~ " Pontos"))
+            plot.title = element_text(size=16),
+            axis.text.x = element_text(face="bold", size=10),
+            axis.text.y = element_text(face="bold", size=10),
+            text = element_text(face="bold", size=12))+
+      ggtitle(bquote(M[.(ids)] ~ "=" ~ .(pontos) ~ " Pontos"))
     
     # Atualiza indices graficos
     indice_grafico <- indice_grafico + 1

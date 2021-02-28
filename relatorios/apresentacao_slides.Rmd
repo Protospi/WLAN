@@ -1,44 +1,88 @@
 ---
 title: "WLAN"
 author: "Pedro Loes"
-date: "02/02/2021"
-output: ioslides_presentation
+date: "27/02/2021"
+output:
+  ioslides_presentation:
+    logo: logo.png
 ---
 
 ##  Problema
 
 * Descrição:
   * Função:
-    * Minimizar o número de pontos de acesso (Pa's) na área de 800 x 800 metros que atendam à demanda de 475 clientes (Pd's).
+    * Minimizar o número de pontos de acesso __(Pa's)__ na área de __800 x 800 metros__ que atendam à demanda de __475__ clientes __(Pd's)__.
   * Restrições:
-    * O alcance de cada Pa é um círculo com raio de 85 metros.
-    * O número de Pa's não deve ultrapassar 100.
-    * A soma da demanda dos Pd's cobertos por um dado Pa não deve ultrapassar 150 Mbps.
+    * O alcance de cada __Pa__ é um círculo com raio de __85__ metros.
+    * O número de __Pa's__ não deve ultrapassar __100__.
+    * A soma da demanda dos __Pd's__ cobertos por um dado __Pa__ não deve ultrapassar __150 Mbps__.
     
 
 ## Espaço de busca
 
 * Escala:
   * Continua:
-    * Existem infinitas coordenadas de possíveis localizações para os Pa's tornando o problema computacionalmente insolúvel. 
+    * Existem infinitas coordenadas de possíveis localizações para os __Pa's__ tornando o problema computacionalmente __insolúvel__. 
   
   * Discreta:
-    * Considerando a área de 800 x 800 metros discretizada em inteiros, existem 640.000 possíveis localizações para os Pa's tornando o problema computacionalmente solúvel.
+    * Considerando a área de __800 x 800__ metros discretizada em inteiros, existem __640.000__ possíveis localizações para os __Pa's__ tornando o problema computacionalmente __intratável__.
+    * Matrizes $M_{(i,j)}$ foram construídas para discretizar o espaço de busca com $i, j \in \{1, 2, ..., 800 \}$.
 
  
 ## Desenho do Algoritmo 
  
 * Testes dos Espaços:
-  * Espaços discretos menores que 8 x 8 não apresentaram solução ótima.
-  * Espaços maiores que 150 x 150 apresentaram custo computacional muito elevado.
+  * Espaços discretos menores que $M_{(8,8)}$ não apresentaram solução ótima.
+  * Espaços maiores que $M_{(150,150)}$ apresentaram custo computacional muito elevado.
    
 * Implementação:    
-  * O algorítimo foi desenhado para escanear os espaços discretos de 8 x 8 até 150 x 150 na área de 800 x 800 com intervalos iguais entre os pontos.
-  * Para ilustrar, foi considerado o espaço de 9 x 9, que representa 81 possíveis localizações para os Pa's.
+  * O algorítimo foi desenhado para escanear os espaços discretos de $M_{(8,8)}$ até $M_{(150,150)}$ na área de __800 x 800__ com intervalos iguais entre os pontos.
+  * Para ilustrar, foi considerado o espaço de $M_{(9,9)}$, que representa 81 possíveis localizações para os __Pa's__.
+
+## Exemplo de Espaço Discreto
+
+<center>
+
+![](../imagens/m_9x9.png){width=60%, height=60%}
+
+</center>
+
+## Espaços Discretos
+
+<center>
+
+![](../imagens/espacos_discretos_8x8_150x150.png){width=65%, height=65%}
+
+</center>
+
+## Interações do Algoritmo 
+
+* Laço:
+  * A cada iteração o algoritmo inspeciona cada coordenada do espaço discretizado de possíveis localizações dos __Pa's__ e determina o __PA__ que cobre o maior número de __Pd's__. 
+  * Se a condição de __150 Mbps__ não for violada, o índice do __PA__ com maior cobertura de __Pd's__ é armazenado e esses __Pd's__ são removidos.
+  * O algoritmo reinicia a busca do próximo __PA__ que cobre mais __Pd's__ dentre os restantes.
+
+* Critério de Parada:
+  * O algoritmo para quando cobre pelo menos __475__ dos __500 Pd's__ atendendo as restrições de consumo de banda e limite de __Pa's__.
+
+
+## Primeira Iteração
+
+* O algoritmo conta o número de __Pd's__ cobertos por cada uma das __81__ possíveis localizações para o __1º PA__ e soma os __Mbps__ demandados.
+
+* O máximo de __202 Pd's__ são cobertos pelo __PA__ nas coordenadas __(200, 200)__.
+
+* O total de __146 Mbps__ de demanda desses __Pd's__ não viola a condição de menor que __150__ Mbps.  
+
+* As coordenadas deste __1º PA__ são armazenadas.
+
+* Os __202 Pd's__ cobertos por este __PA__ são __removidos__ por já estarem cobertos.
 
 ##
 
-```{r,  warning=F, echo = F, message=F, error=F, fig.align="center", fig.width=7, fig.height=6}
+<center>
+
+```{r, warning=F, echo = F, message=F, error=F, fig.align='right', fig.width=7, fig.height=6}
 
 # Carrega Bibliotecas
 library(tidyverse)
@@ -51,55 +95,6 @@ centro_y <- rep(c(0,100,200,300,400,500,600,700,800), each = 9)
 # Declara data frame do grid
 grid_9_9 <- tibble(x = centro_x,
                    y = centro_y)
-
-# gráfico das posições
-plot_ly(data = grid_9_9,
-       x = ~x,
-       y = ~y) %>% 
-  add_markers(size = 3,
-              color = "red",
-  ) %>% 
-  layout(title = list(text = 'Espaço Discretizado 9 x 9')) %>% 
-  config(displayModeBar = F)
-
-
-
-```
-
-##
-
-<center>
-
-![](../imagens/espacos_discretos_irregulares.png){width=70%, height=70%}
-
-</center>
-
-## Interações do Algoritmo 
-
-* Laço:
-  * A cada iteração o algoritmo inspeciona cada coordenada do espaço discretizado de possíveis localizações dos Pa's e determina o PA que cobre o maior número de Pd's. 
-  * Se a condição de 150 Mbps não for violada, o índice do PA com maior cobertura de Pd's é armazenado e esses Pd's são removidos.
-  * O algoritmo reinicia a busca do próximo PA que cobre mais Pd's dentre os restantes.
-
-* Critério de Parada:
-  * O algoritmo para quando cobre pelo menos 475 dos 500 Pd's atendendo as restrições de consumo de banda e limite de Pa's.
-
-
-## Primeira Iteração
-
-* O algoritmo conta o número de Pd's cobertos por cada uma das 81 possíveis localizações para o 1º PA e soma os Mbps demandados.
-
-* O máximo de 202 Pd's são cobertos pelo PA nas coordenadas (200, 200).
-
-* O total de 146 Mbps de demanda desses Pd's não viola a condição de menor que 150 Mbps.  
-
-* As coordenadas deste 1º PA são armazenadas.
-
-* Os 202 Pd's cobertos por este PA são removidos por já estarem cobertos.
-
-##
-
-```{r, warning=F, echo = F, message=F, error=F, fig.align="center", fig.width=7, fig.height=6}
 
 # Importa dados
 wlan_completa <- read_csv("https://raw.githubusercontent.com/Protospi/WLAN/main/dados/clientes.csv",
@@ -204,20 +199,23 @@ base1
 
 ```
 
+</center>
 
 ## Segunda Iteração
 
-* O algoritmo realiza a mesma busca e contagem da primeira iteração, porém desconsiderando os Pd's cobertos pelo 1º PA.
+* O algoritmo realiza a mesma busca e contagem da primeira iteração, porém desconsiderando os __Pd's__ cobertos pelo __1º PA__.
 
-* O máximo de 199 Pd's são cobertos pelo PA nas coordenadas (600, 600).
+* O máximo de __199 Pd's__ são cobertos pelo __PA__ nas coordenadas __(600, 600)__.
 
-* O total de 141 Mbps de demanda destes Pd's não viola a condição de menor que 150 Mbps. 
+* O total de __141 Mbps__ de demanda destes __Pd's__ não viola a condição de menor que __150 Mbps__. 
 
-* Da mesma forma são armazenadas as coordenadas desse 2º PA. 
+* Da mesma forma são armazenadas as coordenadas desse __2º PA__. 
 
-* Os 199 Pd's cobertos por este PA também são removidos por já estarem cobertos.
+* Os __199 Pd's__ cobertos por este __PA__ também são __removidos por__ já estarem cobertos.
 
 ## 
+
+<center>
 
 ```{r, warning=F, echo = F, message=F, error=F, fig.align="center", fig.width=7, fig.height=6}
 
@@ -349,23 +347,24 @@ base2
 
 ```
 
+</center>
 
 ## Decima Sétima Iteração
 
 * O algoritmo para. 
 
-* O resultado da busca retorna uma solução no mínimo local de 17 PA´s.
+* O resultado da busca retorna uma solução no mínimo local de __17 PA´s__.
 
-* A condição de que 95% ou 475 do total de 500 pontos sejam cobertos é atendida.
+* A condição de que sejam cobertos __95%__ ou __475__ do total de __500 Pd's__ é atendida.
 
-* A restrição de número de Pa's menor que 100 é atendida.
+* A restrição de número de __Pa's__ menor que __100__ é atendida.
 
-* A restrição de que a soma da demanda dos Pd's cobertos por um Pa não exceda 150 Mbps é atendida.
+* A restrição de que a soma da demanda dos __Pd's__ cobertos por um __Pa__ não exceda __150 Mbps__ é atendida.
 
-* As informações dos índices, número de Pd's atendidos e total da demanda em Mbps de cada Pa podem ser recuperados.
+* As informações dos __índices__, número de __Pd's__ atendidos e total da demanda em __Mbps__ de cada __Pa__ podem ser recuperadas.
 
 
-## Solução 9 x 9
+## Mínimo Local $M_{(9,9)}$
 
 <center>
 
@@ -389,7 +388,7 @@ base2
 
 </center>
 
-## Solução 110 x 110
+## Mínimo Global $M_{(110,110)}$
 
 <center>
 
@@ -408,6 +407,7 @@ base2
 ##  Objetivos Critérios e Optimizadores
 
 <br>
+<br>
 
 <center>
 
@@ -415,47 +415,59 @@ base2
 
 </center>
 
-## Critério Máximo Mbps:
+## Critério Máximo Mbps
+
+<br>
 
 <center>
 
-![](../imagens/criterio_Mbps.png){ width=90% }
+![](../imagens/criterio_Mbps.png){ width=80% }
 
 </center>
 
-## Critério Cobertura:
+## Critério Cobertura
+
+<br>
 
 <center>
 
-![](../imagens/criterio_cobertura.png){ width=90% }
+![](../imagens/criterio_cobertura.png){ width=80% }
 
 </center>
 
-## Critério Número de Pa's:
+## Critério Número de Pa's
+
+<br>
 
 <center>
 
-![](../imagens/criterio_pas.png){ width=90% }
+![](../imagens/criterio_pas.png){ width=80% }
 
 </center>
 
-## Critério Unidade de Decisão:
+## Critério Unidade de Decisão
+
+<br>
 
 <center>
 
-![](../imagens/criterio_geral.png){ width=90% }
+![](../imagens/criterio_geral.png){ width=80% }
 
 </center>
 
-## Resultado do AHP:
+## Resultado do AHP
+
+<br>
 
 <center>
 
-![](../imagens/resultados_AHP.png){ width=90% }
+![](../imagens/resultados_AHP.png){ width=80% }
 
 </center>
 
 ## Otimizador em Produção
+
+<br>
 
 <center>
 
