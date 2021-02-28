@@ -1,15 +1,23 @@
 
 
-## Abstract
+## Resumo
 
-This article comprises the applied problem of the Decision Theory course from the department of Systems Engineering of UFMG taught by Professor Lucas Batista. The objective of this work is to apply the optmization and decision techniques taught throughout the semester. The proposed problem aims to minimize the number of access points routers to supply the Mbps consumption demanded by clients in a controlled environment. Also meeting pre-established optimization restrictions
-
-## Apresentação de Slides "Como funciona o Algoritmo"
-
-[Rpubs](https://rpubs.com/Drope/algoritmo)
-
-
+Este artigo apresenta uma solução para um problema aplicado do curso de _Teoria da Decisão_ do departamento de _Engenharia de Sistemas_ da __UFMG__ ministrado pelo professor _Lucas Batista_. O objetivo deste trabalho foi aplicar as técnicas de otimização e teoria da decisão lecionadas ao longo do semestre. O __desenvolvimento__ compreende a exploração de __mínimos locais__ e __mínimos globais__ considerando a construção de diversos espaços de busca com diferentes granularidades. A __solução de mínimo global__ visou otimizar o número de roteadores de pontos de acesso para suprir os consumos de banda demandados pelos clientes, atendendo às restrições pré-estabelecidas. Na etapa __Método AHP__ foi utilizada a técnica de processo analítico hierárquico para conciliar as características do problema com as preferências da unidade de decisão. Finalmente na etapa __Otimizador em Produção__ foi criado um aplicativo __shiny__ para generalizar o uso do algoritmo em problemas semelhantes.
 
 ## Artigo PDF
 
 [Git](https://github.com/Protospi/WLAN/blob/main/relatorios/relatorio_pdf.pdf)
+
+## Apresentação de Slides 
+
+[Rpubs](https://rpubs.com/Drope/wlan)
+
+## Aplicativo Posicionador
+
+[Shinyapps](https://loes.shinyapps.io/shiny/)
+
+
+
+
+
+
