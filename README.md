@@ -14,7 +14,7 @@ Este artigo apresenta uma solução para um problema aplicado do curso de _Teori
 
 ## Aplicativo Posicionador
 
-[Rpubs](https://loes.shinyapps.io/shiny/)
+[Shinyapps](https://loes.shinyapps.io/shiny/)
 
 
 
