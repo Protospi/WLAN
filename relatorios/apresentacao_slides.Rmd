@@ -2,9 +2,10 @@
 title: "WLAN"
 author: "Pedro Loes"
 date: "27/02/2021"
-output:
+output: 
   ioslides_presentation:
-    logo: logo.png
+    logo: logo.png 
+    css: style.css
 ---
 
 ##  Problema
@@ -39,7 +40,7 @@ output:
   * O algorítimo foi desenhado para escanear os espaços discretos de $M_{(8,8)}$ até $M_{(150,150)}$ na área de __800 x 800__ com intervalos iguais entre os pontos.
   * Para ilustrar, foi considerado o espaço de $M_{(9,9)}$, que representa 81 possíveis localizações para os __Pa's__.
 
-## Exemplo de Espaço Discreto
+## Gráfico do Espaço de Busca
 
 <center>
 
@@ -47,15 +48,7 @@ output:
 
 </center>
 
-## Espaços Discretos
-
-<center>
-
-![](../imagens/espacos_discretos_8x8_150x150.png){width=65%, height=65%}
-
-</center>
-
-## Interações do Algoritmo 
+## Iterações do Algoritmo 
 
 * Laço:
   * A cada iteração o algoritmo inspeciona cada coordenada do espaço discretizado de possíveis localizações dos __Pa's__ e determina o __PA__ que cobre o maior número de __Pd's__. 
@@ -364,35 +357,45 @@ base2
 * As informações dos __índices__, número de __Pd's__ atendidos e total da demanda em __Mbps__ de cada __Pa__ podem ser recuperadas.
 
 
-## Mínimo Local $M_{(9,9)}$
+## Gráfico da Solução 
 
 <center>
 
-![](https://raw.githubusercontent.com/Protospi/WLAN/main/imagens/solucao_9x9.png){width=70%, height=70%}
+![](../imagens/solucao_9x9_2.png){width=70%, height=70%}
 
 </center>
 
-## Convergência
+
+## Gráfico de Espaços Discretos
 
 <center>
 
-![](../imagens/mapa_superficie_pas.png){width=70%, height=70%}
+![](../imagens/espacos_discretos_8x8_150x150.png){width=65%, height=65%}
 
 </center>
 
-## Custo Computacional
+
+## Gráfico de Convergência
 
 <center>
 
-![](../imagens/mapa_superficie_tempos_edit.png){width=70%, height=70%}
+![](../imagens/mapa_superficie_pas2.png){width=70%, height=70%}
 
 </center>
 
-## Mínimo Global $M_{(110,110)}$
+## Gráfico de Tempo
 
 <center>
 
-![](../imagens/solucao_110x110.png){width=70%, height=70%}
+![](../imagens/custo_computacional3.png){width=70%, height=70%}
+
+</center>
+
+## Gráfico da Solução
+
+<center>
+
+![](../imagens/solucao_110x110_2.png){width=70%, height=70%}
 
 </center>
 
@@ -400,7 +403,7 @@ base2
 
 <center>
 
-![](../imagens/resumo_robos.png){ width=90% }
+![](../imagens/resumo_robos.png){ width=80% }
 
 </center>
 
@@ -411,7 +414,7 @@ base2
 
 <center>
 
-![](../imagens/AHP.png){ width=90% }
+![](../imagens/AHP.png){ width=80% }
 
 </center>
 
@@ -421,7 +424,7 @@ base2
 
 <center>
 
-![](../imagens/criterio_Mbps.png){ width=80% }
+![](../imagens/criterio_Mbps.png){ width=70% }
 
 </center>
 
@@ -431,7 +434,7 @@ base2
 
 <center>
 
-![](../imagens/criterio_cobertura.png){ width=80% }
+![](../imagens/criterio_cobertura.png){ width=70% }
 
 </center>
 
@@ -441,7 +444,7 @@ base2
 
 <center>
 
-![](../imagens/criterio_pas.png){ width=80% }
+![](../imagens/criterio_pas.png){ width=70% }
 
 </center>
 
@@ -451,7 +454,7 @@ base2
 
 <center>
 
-![](../imagens/criterio_geral.png){ width=80% }
+![](../imagens/criterio_geral.png){ width=70% }
 
 </center>
 
@@ -461,17 +464,16 @@ base2
 
 <center>
 
-![](../imagens/resultados_AHP.png){ width=80% }
+![](../imagens/resultados_AHP.png){ width=70% }
 
 </center>
 
 ## Otimizador em Produção
 
-<br>
 
 <center>
 
-![](../imagens/posicionador_app.png){ width=100% }
+![](../imagens/posicionador_app2.png){ width=100% }
 
 </center>
 
